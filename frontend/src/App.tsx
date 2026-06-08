@@ -1,5 +1,5 @@
 // src/App.tsx
-import {BrowserRouter as Router, Navigate, Route, Routes} from 'react-router-dom';
+import { HashRouter as Router, Navigate, Route, Routes } from 'react-router-dom';
 import {Header} from './components/Header';
 import {ActiveRulesSite} from './components/ActiveRulesSite';
 import {StatusSite} from "./components/StatusSite.tsx";
