@@ -1,0 +1,45 @@
+{
+  "name": "fileorganizer-desktop",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder"
+  },
+  "keywords": [],
+  "author": "Anonym",
+  "license": "ISC",
+  "description": "An App to automatic organize your Files!",
+  "devDependencies": {
+    "electron": "^41.7.1",
+    "electron-builder": "^26.15.0"
+  },
+  "build": {
+    "appId": "ch.graedel.fileorganizer",
+    "productName": "File Organizer",
+    "icon": "assets/icon",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "frontend-dist/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "backend/",
+        "to": "backend/"
+      }
+    ],
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities",
+      "identity": null,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": "nsis"
+    }
+  }
+}

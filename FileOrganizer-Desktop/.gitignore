@@ -1,0 +1,23 @@
+node_modules
+# Node
+node_modules/
+dist/
+frontend-dist/
+
+# Java / Maven
+target/
+*.jar
+dependency-reduced-pom.xml
+
+# Runtime & Configs
+backend/jre/
+port.txt
+config.json
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
