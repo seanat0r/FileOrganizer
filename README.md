@@ -51,12 +51,25 @@ To ensure the app runs without a system-wide Java installation, we generate a cu
 jlink --add-modules java.base,java.desktop,java.net.http,java.sql,jdk.unsupported --output jre --strip-debug --no-man-pages --no-header-files --compress zip-6
 ```
 
-3. Move the jre folder to the target directory:
-    - **macOS:** `FileOrganizer-Desktop/backend/jre/`
-    - **windows:** `FileOrganizer-Desktop/backend/jre/`
-    - Rename the new folder there to `mac` or `windows`!
+3. Move the generated JRE folder to `FileOrganizer-Desktop/backend/jre/`
+   and rename it according to your platform:
+    - **macOS:** rename to `mac` → `FileOrganizer-Desktop/backend/jre/mac/`
+    - **Windows:** rename to `windows` → `FileOrganizer-Desktop/backend/jre/windows/`
 
-### 3. Build the Frontend:
+### 3. Build the .jar File
+
+To generate the backend application, you need to compile the Java Source code into an executable `.jar`file.
+
+1. Navigate to the root of the project.
+2. Build the project using Maven (or other tools like IntelliJ):
+
+```bash
+mvn clean package
+```
+
+3. Move the generated `.jar` to `FileOrganizer-Desktop/backend/`. Ensure it is named `File_organazier-1.0.jar`.
+
+### 4. Build the Frontend:
 
 ```bash
 cd frontend
@@ -66,14 +79,17 @@ npm run build
 
 Move the contents of `dist/` to `/FileOrganizer-Desktop` and rename it to `frontend-dist`
 
-### 4. Start the Application
+### 5. Start the Application
 
-Make sure in `/FileOrganizer-Desktop/backend/` is the `File_organazier-1.0.jar` file!
+- Make sure in `/FileOrganizer-Desktop/backend/` is the `File_organazier-1.0.jar` file!
+- Make sure in `/FileOrganizer-Desktop/backend/jre/` has an `mac` or `windows` directory with the contents of the `jre`!
+- Make sure the frontend `dist` is named to `frontend-dist`and lies in `/FileOrganizer-Desktop/`!
 
 ```bash
 cd /FileOrganizer-Desktop
 npm install
-npm start
+npm start # test is everything right
+npm run build # generates the .exe or .dmg file
 ```
 
 ## Project Structure
