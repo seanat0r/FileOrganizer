@@ -8,6 +8,14 @@ FileOrganizer is an intelligent automation tool that monitors your file system a
 on user-defined rules. Whether it's sorting downloads, organizing documents, or cleaning up messy directories,
 FileOrganizer ensures your files are exactly where they belong.
 
+## Preview
+
+Some Picture from the Project:
+
+![File_Organizer_test_1_pic.png](File_Organizer_test_2_pic.png)
+
+![File_Organizer_test_2_pic.png](File_Organizer_test_1_pic.png)
+
 ## Tech Stack
 
 ### Backend (Java)
@@ -32,6 +40,10 @@ FileOrganizer ensures your files are exactly where they belong.
 - **Portability:** Lightweight and standalone, thanks to modular `jlink` runtimes.
 
 ## Installation & Setup
+
+If you only wand the app, you can download the `.exe` or `.dmg` in the Releases!
+
+> **Note for users:** The app is currently unsigned!
 
 ### 1. Clone the repository
 
