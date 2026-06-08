@@ -12,9 +12,9 @@ FileOrganizer ensures your files are exactly where they belong.
 
 Some Picture from the Project:
 
-![File_Organizer_test_1_pic.png](File_Organizer_test_2_pic.png)
+![File_Organizer_test_pic.png](File_Organizer_test_pic.png)
 
-![File_Organizer_test_2_pic.png](File_Organizer_test_1_pic.png)
+![File_Organizer_test_2_pic.png](File_Organizer_test_2_pic.png)
 
 ## Tech Stack
 
