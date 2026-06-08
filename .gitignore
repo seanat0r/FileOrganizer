@@ -39,3 +39,7 @@ build/
 .DS_Store
 *.jar
 dependency-reduced-pom.xml
+
+# Project specific
+port.txt
+*.log

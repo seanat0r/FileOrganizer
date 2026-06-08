@@ -1,8 +1,11 @@
-node_modules
 # Node
 node_modules/
 dist/
 frontend-dist/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.eslintcache
 
 # Java / Maven
 target/
@@ -21,3 +24,4 @@ config.json
 
 # OS
 .DS_Store
+Thumbs.db
