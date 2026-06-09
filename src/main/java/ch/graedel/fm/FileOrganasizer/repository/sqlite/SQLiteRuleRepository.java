@@ -198,6 +198,12 @@ public class SQLiteRuleRepository implements RuleRepository {
         }
     }
 
+    /**
+     * Search the database for the name of the Rule
+     *
+     * @param name Rule Name to search
+     * @return a Rule.
+     */
     @Override
     public Optional<Rule> findByName(String name) {
         if (name == null || name.isEmpty()) throw new IllegalArgumentException("name must not be empty");
@@ -227,6 +233,11 @@ public class SQLiteRuleRepository implements RuleRepository {
     ========================
      */
 
+    /**
+     * Add a new global path
+     *
+     * @param path the path to add.
+     */
     @Override
     public void addGlobalPath(String path) {
         if (path == null || path.isEmpty()) throw new IllegalArgumentException("path must not be empty");
@@ -245,6 +256,11 @@ public class SQLiteRuleRepository implements RuleRepository {
         }
     }
 
+    /**
+     * Remove a global Path which it's ID
+     *
+     * @param id the global Path to remove
+     */
     @Override
     public void removeGlobalPath(Long id) {
         if (id == null || id <= 0) {
@@ -271,6 +287,11 @@ public class SQLiteRuleRepository implements RuleRepository {
         }
     }
 
+    /**
+     * Get all the Global path
+     *
+     * @return returns the list of the global Path
+     */
     @Override
     public List<AppConfig> findAllGlobalPaths() {
         try (Connection conn = DatabaseManager.getDatabaseConnection()) {
