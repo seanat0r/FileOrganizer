@@ -5,6 +5,7 @@ import java.util.List;
 /**
  * The specific rule
  *
+ * @param ruleName      Name of the rule.
  * @param startLocation When in use, ignore global Directory and use this Directory.
  * @param name          Only move file with the exact same name.
  * @param extensions    like pdf, png, docx etc. Use it without a dot!
@@ -14,6 +15,8 @@ import java.util.List;
  * @param hash          Use hash to compare file. When the same hash exist (a 1 to 1 copy) don't move, if true.
  */
 public record Rule(
+        Long id,
+        String ruleName,
         List<String> startLocation,
         String name,
         List<String> extensions,

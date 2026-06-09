@@ -9,6 +9,7 @@ import java.util.List;
  * @param rules                The rule when and where to move
  */
 public record AppConfig(
+        Long id,
         List<String> startLocationsGlobal,
         List<Rule> rules
 ) {
