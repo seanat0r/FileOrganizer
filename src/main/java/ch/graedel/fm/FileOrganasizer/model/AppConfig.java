@@ -5,12 +5,12 @@ import java.util.List;
 /**
  * Config.json structure. Level 1
  *
+ * @param id                   An id for the db.
  * @param startLocationsGlobal Global Path for all rule*
- * @param rules                The rule when and where to move
+ *
  */
 public record AppConfig(
         Long id,
-        List<String> startLocationsGlobal,
-        List<Rule> rules
+        List<String> startLocationsGlobal
 ) {
 }

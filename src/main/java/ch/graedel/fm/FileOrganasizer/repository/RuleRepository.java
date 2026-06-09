@@ -1,5 +1,6 @@
 package ch.graedel.fm.FileOrganasizer.repository;
 
+import ch.graedel.fm.FileOrganasizer.model.AppConfig;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
 
 import java.util.List;
@@ -19,9 +20,9 @@ public interface RuleRepository {
     Optional<Rule> findByName(String name);
 
     // GLOBAL PATHS
-    void addGlobalPath(String[] path);
+    void addGlobalPath(String path);
 
-    void removeGlobalPath(String path);
+    void removeGlobalPath(Long id);
 
-    List<String> findAllGlobalPaths();
+    List<AppConfig> findAllGlobalPaths();
 }

@@ -1,5 +1,6 @@
 package ch.graedel.fm.FileOrganasizer.repository.sqlite;
 
+import ch.graedel.fm.FileOrganasizer.model.AppConfig;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.repository.RuleRepository;
 import ch.graedel.fm.FileOrganasizer.utils.DatabaseManager;
@@ -30,7 +31,7 @@ public class SQLiteRuleRepository implements RuleRepository {
     }
 
     /**
-     * SQLite cannot save array. We seperate each value with a "," and convert it to an String
+     * SQLite cannot save array. We seperate each value with a "," and convert it to a String
      *
      * @param list Those List in the rules
      * @return The List as an array, comma separated
@@ -80,6 +81,7 @@ public class SQLiteRuleRepository implements RuleRepository {
      */
     @Override
     public void add(Rule rule) {
+        if (rule == null) throw new NullPointerException("rule can't be null");
         try (Connection conn = DatabaseManager.getDatabaseConnection()) {
             int sqlHash = changeHashValue(rule.hash());
             String sqlStartLocation = listToString(rule.startLocation());
@@ -204,7 +206,7 @@ public class SQLiteRuleRepository implements RuleRepository {
             String sql = """
                                     SELECT *
                                     FROM RULES
-                                    WHERE rule_name = ?;
+                                    WHERE rule_name = ?
                                     ORDER BY rule_name;
                     """;
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -219,18 +221,83 @@ public class SQLiteRuleRepository implements RuleRepository {
         }
     }
 
-    @Override
-    public void addGlobalPath(String[] path) {
+    /*
+    ========================
+           GLOBAL PATH
+    ========================
+     */
 
+    @Override
+    public void addGlobalPath(String path) {
+        if (path == null || path.isEmpty()) throw new IllegalArgumentException("path must not be empty");
+
+        try (Connection conn = DatabaseManager.getDatabaseConnection()) {
+            String sql = """
+                                        INSERT INTO global_paths (path)
+                                        VALUES (?);
+                    """;
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setString(1, path);
+            statement.execute();
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not add global path. " + path + e);
+        }
     }
 
     @Override
-    public void removeGlobalPath(String path) {
+    public void removeGlobalPath(Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("id must be non-negative");
+        }
 
+        try (Connection conn = DatabaseManager.getDatabaseConnection()) {
+
+
+            String sql = """
+                    DELETE FROM global_paths
+                    WHERE id = ?;
+                    """;
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setLong(1, id);
+            int affectedRows = statement.executeUpdate();
+
+            if (affectedRows == 0) {
+                throw new RuntimeException("Could not delete rule: " + id);
+            }
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not remove global path with id: " + id, e);
+        }
     }
 
     @Override
-    public List<String> findAllGlobalPaths() {
-        return List.of();
+    public List<AppConfig> findAllGlobalPaths() {
+        try (Connection conn = DatabaseManager.getDatabaseConnection()) {
+
+            List<AppConfig> configs = new ArrayList<>();
+
+            String sql = """
+                                         SELECT *
+                                         FROM global_paths
+                                         ORDER BY path;
+                    """;
+            PreparedStatement statement = conn.prepareStatement(sql);
+            ResultSet resultSet = statement.executeQuery();
+
+
+            while (resultSet.next()) {
+                AppConfig config = new AppConfig(
+                        resultSet.getLong("id"),
+                        stringToList(resultSet.getString("path"))
+                );
+                configs.add(config);
+            }
+
+            return configs;
+
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not get global paths.", e);
+        }
     }
 }

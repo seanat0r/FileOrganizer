@@ -43,3 +43,4 @@ dependency-reduced-pom.xml
 # Project specific
 port.txt
 *.log
+.idea
