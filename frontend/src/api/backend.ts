@@ -1,4 +1,4 @@
-import type {AppConfig, AppResponse, Log} from "../types";
+import type {AppResponse, Log} from "../types";
 
 const port = window.electronAPI?.backendPort ?? '9999';
 //const BASE_URL = `http://127.0.0.1:${port}`;
@@ -101,14 +101,14 @@ export const stopBackend = async (): Promise<boolean> => {
  * @param AppConfig the new rules.
  * @return true succeed sending the new config.json.
  */
-export const postNewConfig = async (AppConfig: AppConfig): Promise<boolean> => {
+export const postNewConfig = async (AppResponse: AppResponse): Promise<boolean> => {
     try {
         const response = await fetch(`${BASE_URL}/api/config`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify(AppConfig),
+            body: JSON.stringify(AppResponse),
         });
         if (!response.ok) {
             throw new Error(response.statusText);

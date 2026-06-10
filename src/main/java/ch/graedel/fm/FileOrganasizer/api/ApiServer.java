@@ -8,7 +8,10 @@ import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.Javalin;
+import io.javalin.json.JavalinJackson;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
 import java.io.File;
@@ -95,6 +98,12 @@ public class ApiServer {
      */
     public void start() throws IOException {
         Javalin app = Javalin.create(config -> {
+
+            config.jsonMapper(new JavalinJackson().updateMapper(mapper -> {
+                mapper.registerModule(new JavaTimeModule());
+                mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+            }));
+
             config.bundledPlugins.enableCors(cors -> {
                 cors.addRule(CorsPluginConfig.CorsRule::anyHost);
             });
@@ -104,6 +113,7 @@ public class ApiServer {
         System.out.println("Server running on Port: " + port);
         Files.writeString(portFile.toPath(), String.valueOf(port));
 
+        // send the config
         app.get("/api/config", ctx -> {
             var rules = sqlRule.findAll();
             var path = sqlRule.findAllGlobalPaths();

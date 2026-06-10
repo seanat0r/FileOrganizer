@@ -13,22 +13,8 @@ export function ActiveRulesSite() {
             try {
                 const getAppResponse = await getConfig();
 
-                if (getAppResponse && Array.isArray(getAppResponse.rules)) {
-                    setRules(getAppResponse.rules);
-                } else {
-                    setRules([]);
-                }
-
-                const fetchedConfig = getAppResponse?.globalPaths;
-
-                setConfig({
-                    id: fetchedConfig?.id || 0,
-                    startLocationsGlobal: Array.isArray(fetchedConfig?.startLocationsGlobal)
-                        ? fetchedConfig.startLocationsGlobal
-                        : Array.isArray(fetchedConfig?.startLocationsGlobal)
-                            ? fetchedConfig.startLocationsGlobal
-                            : []
-                });
+                setConfig(getAppResponse.globalPaths);
+                setRules(getAppResponse.rules);
 
             } catch (error) {
                 console.error("Fehler beim Laden:", error);
@@ -38,8 +24,7 @@ export function ActiveRulesSite() {
         };
         void fetchRules();
     }, []);
-
-    console.log("Config: ", config, rules);
+    
     if (!config || !Array.isArray(config.startLocationsGlobal)) {
         return (
             <div className="active-rules-layout">

@@ -21,6 +21,7 @@ export function RuleForm({
                              onCancelEdit
                          }: RuleFormProps) {
     // FORMS STATE
+    const [ruleName, setRuleName] = useState("");
     const [startLocArray, setStartLocArray] = useState("");
     const [name, setName] = useState("");
     const [extension, setExtension] = useState("");
@@ -34,6 +35,7 @@ export function RuleForm({
     useEffect(() => {
         if (activeRule) {
             // EDIT MODE:
+            setRuleName(activeRule.ruleName || "");
             setStartLocArray(activeRule.startLocation ? activeRule.startLocation.join(", ") : "");
             setName(activeRule.name || "");
             setExtension(activeRule.extensions ? activeRule.extensions.join(", ") : "");
@@ -43,6 +45,7 @@ export function RuleForm({
             setHash(activeRule.hash || false);
         } else {
             // ADD MODE:
+            setRuleName("");
             setStartLocArray("");
             setName("");
             setExtension("");
@@ -56,6 +59,11 @@ export function RuleForm({
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         setFormError(null);
+
+        if (ruleName.trim() === "") {
+            setFormError("Rule Name is required");
+            return;
+        }
 
         const isValidPath = (pathStr: string) => {
             if (pathStr.trim() === "") return true;
@@ -95,6 +103,7 @@ export function RuleForm({
         const extArray = extension.split(",").map(s => s.trim()).filter(s => s !== "");
 
         const ruleObject: Rule = {
+            ruleName: "",
             name: name.trim(),
             startLocation: parsedStartLocArray.length > 0 ? parsedStartLocArray : [],
             extensions: extArray.length > 0 ? extArray : [],
@@ -128,6 +137,16 @@ export function RuleForm({
                     <span>{formError}</span>
                 </div>
             )}
+            <div className="form-group">
+                <label className="form-label">Rule Name<span className="required-asterisk">*</span></label>
+                <input
+                    type="text"
+                    className="form-input"
+                    value={ruleName}
+                    onChange={(e) => setRuleName(e.target.value)}
+                    placeholder="Name your Rule"
+                />
+            </div>
 
             <div className="form-group">
                 <label className="form-label">Exact Name Match <span
@@ -177,7 +196,8 @@ export function RuleForm({
             </div>
 
             <div className="form-group">
-                <label className="form-label">Contains Name</label>
+                <label className="form-label">Contains Name<span
+                    className="label-hint">(Leave empty if unused)</span></label>
                 <input
                     type="text"
                     className="form-input"
