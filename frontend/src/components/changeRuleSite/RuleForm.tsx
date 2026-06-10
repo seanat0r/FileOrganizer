@@ -143,7 +143,6 @@ export function RuleForm({
 
             <div className="form-group">
                 <label className="form-label">Specific Source Paths <span className="label-hint">(Comma-separated, optional)</span></label>
-                {/* --- GEÄNDERT ZU TEXTAREA --- */}
                 <textarea
                     className="form-input form-textarea"
                     value={startLocArray}
@@ -155,7 +154,6 @@ export function RuleForm({
 
             <div className="form-group">
                 <label className="form-label">Destination Path <span className="required-asterisk">*</span></label>
-                {/* --- GEÄNDERT ZU TEXTAREA --- */}
                 <textarea
                     className="form-input form-textarea"
                     value={destination}

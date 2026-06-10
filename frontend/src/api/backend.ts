@@ -1,7 +1,8 @@
-import type {AppConfig} from "../types";
+import type {AppConfig, AppResponse, Log} from "../types";
 
 const port = window.electronAPI?.backendPort ?? '9999';
-const BASE_URL = `http://127.0.0.1:${port}`;
+//const BASE_URL = `http://127.0.0.1:${port}`;
+const BASE_URL = "http://127.0.0.1:50215"
 
 console.log("Connecting to backend on port:", port);
 
@@ -38,7 +39,7 @@ export const getStatus = async (): Promise<BackendStatus> => {
  * Get the config from the Server, the config.json file, where the rules are.
  * @return the config.json
  */
-export const getConfig = async (): Promise<AppConfig> => {
+export const getConfig = async (): Promise<AppResponse> => {
     try {
         const response = await fetch(`${BASE_URL}/api/config`);
         if (!response.ok) {
@@ -48,8 +49,11 @@ export const getConfig = async (): Promise<AppConfig> => {
     } catch (error) {
         console.error("Backend not reachable: " + error);
         return {
-            startLocationsGlobal: [],
             rules: [],
+            globalPaths: {
+                id: 0,
+                startLocationsGlobal: []
+            }
         };
     }
 }
@@ -116,14 +120,21 @@ export const postNewConfig = async (AppConfig: AppConfig): Promise<boolean> => {
     }
 }
 
-export const getLogs = async (): Promise<string[]> => {
+export const getLogs = async (): Promise<Log[]> => {
     try {
         const response = await fetch(`${BASE_URL}/api/logs`);
         if (!response.ok) {
-            return [];
+            throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
         return await response.json();
     } catch (error) {
-        return [`> No Connection to the backend... : ${error}`];
+        console.error("Backend not reachable: ", error);
+        return [{
+            id: 0,
+            timestamp: new Date().toISOString(),
+            ruleName: "System",
+            message: `> No Connection to the backend... : ${error}`,
+            type: "ERROR",
+        }];
     }
 }

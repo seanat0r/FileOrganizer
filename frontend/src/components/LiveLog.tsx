@@ -1,12 +1,13 @@
 import {useEffect, useRef, useState} from "react";
 import {getLogs} from "../api/backend.ts";
+import type {Log} from "../types/index.ts";
 
 export function LiveLog() {
-    const [logs, setLogs] = useState<string[]>([]);
+    const [logs, setLogs] = useState<Log[]>([]);
 
-    const logsRef = useRef<string[]>([]);
+    const logsRef = useRef<Log[]>([]);
     const endOfLogRef = useRef<HTMLDivElement>(null);
-    const containerRef = useRef<HTMLDivElement>(null); // Die Scroll-Box
+    const containerRef = useRef<HTMLDivElement>(null);
     const isAutoScrollEnabled = useRef(true);
 
     useEffect(() => {
@@ -53,17 +54,21 @@ export function LiveLog() {
                             // Ersetzt Inline-Farben durch Klassennamen
                             let logClass = "log-default";
 
-                            if (log.includes("ERROR")) {
+                            if (log.type === ("ERROR")) {
                                 logClass = "log-error";
-                            } else if (log.includes("SUCCESS")) {
+                            } else if (log.type === ("SUCCESS")) {
                                 logClass = "log-success";
-                            } else if (log.includes("INFO")) {
+                            } else if (log.type === ("INFO")) {
                                 logClass = "log-info";
+                            } else if (log.type === ("SKIP")) {
+                                logClass = "log-info";
+                            } else if (log.type === ("WARNING")) {
+                                logClass = "log-warning";
                             }
 
                             return (
                                 <li key={index} className={`log-item ${logClass}`}>
-                                    {log}
+                                    {`${new Date(log.timestamp).toLocaleString('de-CH')} | ${log.type} | ${log.ruleName}: ${log.message}`}
                                 </li>
                             );
                         })

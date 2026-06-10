@@ -19,7 +19,7 @@ export function ChangeRulePage() {
                 const config = await getConfig();
 
                 setRules(config.rules);
-                setGlobalPaths(config.startLocationsGlobal);
+                setGlobalPaths(config.globalPaths.startLocationsGlobal);
             } catch (error) {
                 console.error(error);
             }
@@ -94,7 +94,6 @@ export function ChangeRulePage() {
             console.log("Sending new Config");
             const configToSave: AppConfig = {
                 startLocationsGlobal: globalPaths,
-                rules: rules,
             }
             console.table(configToSave);
 

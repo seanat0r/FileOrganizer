@@ -1,19 +1,55 @@
 import {useEffect, useState} from "react";
-import type {AppConfig} from "../types";
+import type {AppConfig, Rule} from "../types";
 import {getConfig} from "../api/backend.ts";
 import {RuleCard} from "./RuleCard.tsx";
 
 export function ActiveRulesSite() {
-    const [config, setConfig] = useState<AppConfig>();
+
+    const [config, setConfig] = useState<AppConfig>({id: 0, startLocationsGlobal: []});
+    const [rules, setRules] = useState<Rule[]>([]);
 
     useEffect(() => {
         const fetchRules = async () => {
-            const currentRules = await getConfig();
-            setConfig(currentRules);
+            try {
+                const getAppResponse = await getConfig();
+
+                if (getAppResponse && Array.isArray(getAppResponse.rules)) {
+                    setRules(getAppResponse.rules);
+                } else {
+                    setRules([]);
+                }
+
+                const fetchedConfig = getAppResponse?.globalPaths;
+
+                setConfig({
+                    id: fetchedConfig?.id || 0,
+                    startLocationsGlobal: Array.isArray(fetchedConfig?.startLocationsGlobal)
+                        ? fetchedConfig.startLocationsGlobal
+                        : Array.isArray(fetchedConfig?.startLocationsGlobal)
+                            ? fetchedConfig.startLocationsGlobal
+                            : []
+                });
+
+            } catch (error) {
+                console.error("Fehler beim Laden:", error);
+                setConfig({id: 0, startLocationsGlobal: []});
+                setRules([]);
+            }
         };
         void fetchRules();
     }, []);
 
+    console.log("Config: ", config, rules);
+    if (!config || !Array.isArray(config.startLocationsGlobal)) {
+        return (
+            <div className="active-rules-layout">
+                <div className="loading-state">
+                    <span className="loading-spinner"></span>
+                    <p>Loading configuration...</p>
+                </div>
+            </div>
+        );
+    }
     return (
         <div className="active-rules-layout">
             <header className="page-header">
@@ -34,9 +70,9 @@ export function ActiveRulesSite() {
                             <h3>Global Source Directories</h3>
                         </div>
                         <div className="card-body">
-                            {config.startLocationsGlobal.length > 0 ? (
+                            {config.startLocationsGlobal?.length > 0 ? (
                                 <ul className="directory-list">
-                                    {config.startLocationsGlobal.map((location, index) => (
+                                    {config.startLocationsGlobal?.map((location, index) => (
                                         <li key={`global-${index}`} className="directory-item">
                                             <span className="folder-icon">📁</span>
                                             <span className="path-text">{location}</span>
@@ -52,13 +88,13 @@ export function ActiveRulesSite() {
                     {/* Specific Rules */}
                     <section className="specific-rules-section">
                         <h3 className="section-title">Specific Rules</h3>
-                        {config.rules.length === 0 ? (
+                        {rules?.length === 0 ? (
                             <div className="card empty-state-card">
                                 <p>No specific rules defined yet.</p>
                             </div>
                         ) : (
                             <div className="rules-grid">
-                                {config.rules.map((rule, index) => (
+                                {rules?.map((rule, index) => (
                                     <RuleCard key={`rule-${index}`} rule={rule} index={index}/>
                                 ))}
                             </div>
