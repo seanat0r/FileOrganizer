@@ -1,7 +1,9 @@
 package ch.graedel.fm.FileOrganasizer.mover;
 
-import ch.graedel.fm.FileOrganasizer.api.SystemLogger;
+import ch.graedel.fm.FileOrganasizer.model.Log;
+import ch.graedel.fm.FileOrganasizer.model.Logtype;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
+import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.utils.FileHasher;
 import ch.graedel.fm.FileOrganasizer.utils.shouldRename;
 
@@ -16,6 +18,12 @@ import java.nio.file.StandardCopyOption;
  * Moves files
  */
 public class FileMover {
+    private final SQLiteLogRepository sqlLog;
+
+    public FileMover(SQLiteLogRepository sqlLog) {
+        this.sqlLog = sqlLog;
+    }
+
     /**
      * Checks if the path exist
      *
@@ -24,11 +32,18 @@ public class FileMover {
     private void existPath(Path path) {
         try {
             if (!Files.exists(path)) {
-                SystemLogger.addLog("INFO: Path: " + path + " does not exist. Creating it.");
+                sqlLog.addLog(new Log(
+                        "PATH",
+                        "The path doesnt exist, trying to create it: " + path,
+                        Logtype.INFO));
                 Files.createDirectories(path);
             }
         } catch (IOException e) {
-            SystemLogger.addLog("ERROR: Cannot create directory: " + path + ". Reason: " + e.getMessage());
+            sqlLog.addLog(new Log(
+                    "PATH",
+                    "An error occurred while creating the file " + path + ": " + e.getMessage(),
+                    Logtype.ERROR
+            ));
             IO.println("ERROR: An error occurred while creating the file " + path + ": " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -86,7 +101,11 @@ public class FileMover {
                 FileHasher hasher = new FileHasher();
                 boolean isSameContent = hasher.compareFiles(fileToMove.toPath(), targetFile);
                 if (isSameContent) {
-                    SystemLogger.addLog("SKIP (Same File Content): " + fileToMove.getName());
+                    sqlLog.addLog(new Log(
+                            "Hash",
+                            "Same Content: " + fileToMove.getName(),
+                            Logtype.SKIP
+                    ));
                     return;
                 }
             }
@@ -94,15 +113,27 @@ public class FileMover {
                 targetFile = generateNewName(targetFile);
 
             } else if (Files.exists(targetFile)) {
-                SystemLogger.addLog("SKIP (Conflict): " + fileToMove.getName());
+                sqlLog.addLog(new Log(
+                        "Same Name",
+                        "File Exists",
+                        Logtype.SKIP
+                ));
                 return;
             }
 
             Files.move(fileToMove.toPath(), targetFile, StandardCopyOption.REPLACE_EXISTING);
-            SystemLogger.addLog("SUCCESS: The file " + fileToMove.getName() + " has been moved to " + targetFile);
+            sqlLog.addLog(new Log(
+                    "Moved",
+                    "The file " + fileToMove.getName() + " has been moved to " + targetFile,
+                    Logtype.SUCCESS
+            ));
 
         } catch (Exception e) {
-            SystemLogger.addLog("ERROR: Failed to move file from: " + fileToMove.getName() + ": " + e.getMessage());
+            sqlLog.addLog(new Log(
+                    "Moved",
+                    "Failed to move file from: " + fileToMove.getName() + ": " + e.getMessage(),
+                    Logtype.ERROR
+            ));
             System.err.println("ERROR: Failed to move file from: " + fileToMove.getName() + ": " + e.getMessage());
         }
     }

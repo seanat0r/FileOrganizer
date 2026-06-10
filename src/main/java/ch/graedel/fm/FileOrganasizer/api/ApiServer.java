@@ -2,8 +2,11 @@ package ch.graedel.fm.FileOrganasizer.api;
 
 import ch.graedel.fm.FileOrganasizer.Main;
 import ch.graedel.fm.FileOrganasizer.model.AppResponse;
+import ch.graedel.fm.FileOrganasizer.model.Log;
+import ch.graedel.fm.FileOrganasizer.model.Logtype;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
+import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
@@ -22,11 +25,13 @@ public class ApiServer {
     /**
      * Holds the ConfigParser
      */
-    private final SQLiteRuleRepository sql;
+    private final SQLiteRuleRepository sqlRule;
     /**
      * Holds the FileMover
      */
     private final FileMover mover;
+
+    private final SQLiteLogRepository sqlLog;
 
     /**
      * Holds the $HOME directory to access the file everywhere
@@ -46,13 +51,14 @@ public class ApiServer {
     private volatile boolean isWatcherRunning = false;
 
     /**
-     * Constructor to start the ConfigParser and FilveMover
+     * Constructor to start the ConfigParser and FileMover
      *
-     * @param sql   SQLiteRuleRepository
-     * @param mover FileMover
+     * @param sqlRule SQLiteRuleRepository
+     * @param mover   FileMover
      */
-    public ApiServer(SQLiteRuleRepository sql, FileMover mover) throws URISyntaxException {
-        this.sql = sql;
+    public ApiServer(SQLiteRuleRepository sqlRule, SQLiteLogRepository sqlLog, FileMover mover) throws URISyntaxException {
+        this.sqlLog = sqlLog;
+        this.sqlRule = sqlRule;
         this.mover = mover;
         this.homeDir = System.getProperty("user.home");
         this.portFile = new File(homeDir + File.separator + ".fileorganizer" + File.separator + "port.txt");
@@ -76,8 +82,8 @@ public class ApiServer {
         if (isWatcherRunning) return;
         isWatcherRunning = true;
         watcherThread = new Thread(() -> {
-            Main.startProgram(sql, mover);
-            Main.watchService(sql, mover);
+            Main.startProgram(sqlRule, mover);
+            Main.watchService(sqlRule, mover);
         });
         watcherThread.start();
 
@@ -99,12 +105,13 @@ public class ApiServer {
         Files.writeString(portFile.toPath(), String.valueOf(port));
 
         app.get("/api/config", ctx -> {
-            var rules = sql.findAll();
-            var path = sql.findAllGlobalPaths();
+            var rules = sqlRule.findAll();
+            var path = sqlRule.findAllGlobalPaths();
 
             ctx.json(new AppResponse(rules, path));
         });
 
+        // Get the status of the service
         app.get("/api/status", ctx -> {
             ctx.status(200).json(Map.of(
                     "running", isWatcherRunning,
@@ -121,19 +128,25 @@ public class ApiServer {
                 if (wasRunning) stopWatcher();
 
                 // deletes All Configuration
-                sql.removeAllRules();
-                sql.removeAllGlobalPaths();
+                sqlRule.removeAllRules();
+                sqlRule.removeAllGlobalPaths();
 
                 // Add all the old and the new rules and global Paths
                 for (Rule rule : newConfig.rules()) {
-                    sql.add(rule);
+                    sqlRule.add(rule);
                 }
 
                 for (String path : newConfig.globalPaths().startLocationsGlobal()) {
-                    sql.addGlobalPath(path);
+                    sqlRule.addGlobalPath(path);
                 }
 
                 if (wasRunning) startWatcher();
+
+                sqlLog.addLog(new Log(
+                        "Config",
+                        "Config reloaded successfully",
+                        Logtype.SUCCESS
+                ));
 
                 ctx.status(200).result("Configuration updated and Watcher restarted!");
             } catch (Exception e) {
@@ -142,29 +155,45 @@ public class ApiServer {
             }
         });
 
+        // Start the service
         app.post("/api/watcher/start", ctx -> {
             if (isWatcherRunning) {
                 ctx.status(400).result("Watcher is already running!");
                 return;
             }
+            sqlLog.addLog(new Log(
+                    "Server",
+                    "Service is starting",
+                    Logtype.INFO
+            ));
 
             startWatcher();
 
             ctx.status(200).result("Started watcher!");
         });
 
+        // Stop the Service
         app.post("/api/watcher/stop", ctx -> {
             if (!isWatcherRunning) {
                 ctx.status(400).result("Watcher is not running!");
                 return;
             }
+
+            sqlLog.addLog(new Log(
+                    "Server",
+                    "Service is stopping",
+                    Logtype.INFO
+            ));
+
             stopWatcher();
 
             ctx.status(200).result("Watcher stopped!");
         });
 
+        // get the Logs
         app.get("/api/logs", ctx -> {
-            ctx.status(200).json(SystemLogger.logs);
+            sqlLog.cleanup(50);
+            ctx.status(200).json(sqlLog.getAllLogs());
         });
     }
 }

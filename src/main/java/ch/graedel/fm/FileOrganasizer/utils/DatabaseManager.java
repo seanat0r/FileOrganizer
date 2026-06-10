@@ -32,7 +32,7 @@ public class DatabaseManager {
         String createLogDatabase = """
                 CREATE TABLE IF NOT EXISTS logs (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+                timestamp TEXT DEFAULT (datetime('now','localtime')),
                 rule_name TEXT,
                 message TEXT,
                 status TEXT NOT NULL DEFAULT 'INFO' CHECK (status IN ('SUCCESS', 'ERROR', 'INFO', 'SKIP', 'WARNING'))

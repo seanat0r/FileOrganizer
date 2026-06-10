@@ -5,6 +5,7 @@ import ch.graedel.fm.FileOrganasizer.checker.*;
 import ch.graedel.fm.FileOrganasizer.model.AppConfig;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
+import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
 import ch.graedel.fm.FileOrganasizer.utils.DatabaseManager;
 
@@ -26,8 +27,9 @@ public class Main {
         try {
             //ConfigParser parser = new ConfigParser();
             SQLiteRuleRepository sqliteDbRepo = new SQLiteRuleRepository();
-            FileMover mover = new FileMover();
-            ApiServer api = new ApiServer(sqliteDbRepo, mover);
+            SQLiteLogRepository sqliteLogRepo = new SQLiteLogRepository();
+            FileMover mover = new FileMover(sqliteLogRepo);
+            ApiServer api = new ApiServer(sqliteDbRepo, sqliteLogRepo, mover);
 
             DatabaseManager.createDatabase();
             IO.println("--- Database created ---");
@@ -38,6 +40,7 @@ public class Main {
             IO.println("--- Start cleaning Files ---");
             startProgram(sqliteDbRepo, mover);
         } catch (Exception e) {
+
             e.printStackTrace();
 
             if (e.getCause() != null) {

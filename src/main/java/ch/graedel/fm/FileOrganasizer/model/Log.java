@@ -18,4 +18,7 @@ public record Log(
         String message,
         Logtype type
 ) {
+    public Log(String ruleName, String message, Logtype type) {
+        this(null, null, ruleName, message, type);
+    }
 }
