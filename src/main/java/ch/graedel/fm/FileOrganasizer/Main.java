@@ -5,7 +5,8 @@ import ch.graedel.fm.FileOrganasizer.checker.*;
 import ch.graedel.fm.FileOrganasizer.model.AppConfig;
 import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
-import ch.graedel.fm.FileOrganasizer.parser.ConfigParser;
+import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
+import ch.graedel.fm.FileOrganasizer.utils.DatabaseManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,22 +24,26 @@ public class Main {
      */
     static void main() {
         try {
-            ConfigParser parser = new ConfigParser();
+            //ConfigParser parser = new ConfigParser();
+            SQLiteRuleRepository sqliteDbRepo = new SQLiteRuleRepository();
             FileMover mover = new FileMover();
-            ApiServer api = new ApiServer(parser, mover);
+            ApiServer api = new ApiServer(sqliteDbRepo, mover);
+
+            DatabaseManager.createDatabase();
+            IO.println("--- Database created ---");
 
             api.start();
-            IO.println("--- API Server Online ---\nhttp://localhost:8080/");
+            IO.println("--- API Server Online ---");
 
             IO.println("--- Start cleaning Files ---");
-            startProgram(parser, mover);
+            startProgram(sqliteDbRepo, mover);
         } catch (Exception e) {
             e.printStackTrace();
-            
+
             if (e.getCause() != null) {
                 e.getCause().printStackTrace();
             } else {
-                System.err.println("Keine weitere Ursache (Cause) vorhanden.");
+                System.err.println("No other Cause exists.");
             }
         }
 
@@ -66,7 +71,7 @@ public class Main {
      * @param rule            the Rule Class
      * @param file            the File Class
      * @param globalLocations The Global Location of the config
-     * @return true, all rules aplay -> do move. false, a rule does not aplay -> don't move.
+     * @return true, all rules apply -> do move. false, a rule does not apply -> don't move.
      */
     private static boolean checkRules(Rule rule, File file, List<String> globalLocations) {
         FileChecker extensionChecker = new ExtensionChecker(rule);
@@ -84,12 +89,12 @@ public class Main {
     /**
      * Starts the programm for an initial clean up.
      *
-     * @param parser ConfigParser
-     * @param mover  FileMover
+     * @param sql   SQLiteRuleRepository
+     * @param mover FileMover
      */
-    public static void startProgram(ConfigParser parser, FileMover mover) {
-        List<Rule> rules = parser.getRules();
-        AppConfig config = parser.getConfig();
+    public static void startProgram(SQLiteRuleRepository sql, FileMover mover) {
+        List<Rule> rules = sql.findAll();
+        AppConfig config = sql.findAllGlobalPaths();
 
         List<String> startFolders = config.startLocationsGlobal();
 
@@ -123,7 +128,7 @@ public class Main {
      * @param globalLocations all GlobalLocation paths from config.json. Its is a List<String>!
      */
     private static void processSingleFile(File file, List<Rule> rules, FileMover mover, List<String> globalLocations) {
-        // ignore system- and hiddenfiles
+        // ignore system- and hidden files
         if (file.isDirectory() || file.isHidden() ||
                 file.getName().equals(".DS_Store") || file.getName().equals("Thumbs.db") ||
                 file.getName().equals("desktop.ini") || file.getName().startsWith("~$") ||
@@ -144,14 +149,14 @@ public class Main {
     }
 
     /**
-     * Set up a WatchService and looks for any changes in the directory and if it sees a change proceed to processSingelFile
+     * Set up a WatchService and looks for any changes in the directory and if it sees a change proceed to processSingleFile
      *
-     * @param parser ConfigParser
-     * @param mover  FileMover
+     * @param sql   SQLiteRuleRepository
+     * @param mover FileMover
      */
-    public static void watchService(ConfigParser parser, FileMover mover) {
-        List<Rule> rules = parser.getRules();
-        List<String> startLocations = parser.getConfig().startLocationsGlobal();
+    public static void watchService(SQLiteRuleRepository sql, FileMover mover) {
+        List<Rule> rules = sql.findAll();
+        List<String> startLocations = sql.findAllGlobalPaths().startLocationsGlobal();
 
         try {
             WatchService watcher = FileSystems.getDefault().newWatchService();
@@ -178,10 +183,6 @@ public class Main {
             while (!Thread.currentThread().isInterrupted()) {
                 WatchKey key = watcher.take();
                 Path dir = (Path) key.watchable();
-
-                // update config files
-                rules = parser.getRules();
-                startLocations = parser.getConfig().startLocationsGlobal();
 
                 for (WatchEvent<?> event : key.pollEvents()) {
                     Path file = (Path) event.context();

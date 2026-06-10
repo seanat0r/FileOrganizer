@@ -1,7 +1,6 @@
 package ch.graedel.fm.FileOrganasizer.parser;
 
 import ch.graedel.fm.FileOrganasizer.model.AppConfig;
-import ch.graedel.fm.FileOrganasizer.model.Rule;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
@@ -9,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.util.List;
 
 /**
  * Prase the config.json file
@@ -69,9 +67,9 @@ public class ConfigParser {
      *
      * @return get the JSON rule
      */
-    public List<Rule> getRules() {
-        return this.config.rules();
-    }
+//    public List<Rule> getRules() {
+//        return this.config.rules();
+//    }
 
     /**
      * Get the config.json

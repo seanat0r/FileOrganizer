@@ -1,8 +1,10 @@
 package ch.graedel.fm.FileOrganasizer.api;
 
 import ch.graedel.fm.FileOrganasizer.Main;
+import ch.graedel.fm.FileOrganasizer.model.AppResponse;
+import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
-import ch.graedel.fm.FileOrganasizer.parser.ConfigParser;
+import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
 import io.javalin.Javalin;
 import io.javalin.plugin.bundled.CorsPluginConfig;
 
@@ -10,9 +12,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Map;
 
 /**
@@ -23,7 +22,7 @@ public class ApiServer {
     /**
      * Holds the ConfigParser
      */
-    private final ConfigParser parser;
+    private final SQLiteRuleRepository sql;
     /**
      * Holds the FileMover
      */
@@ -49,14 +48,39 @@ public class ApiServer {
     /**
      * Constructor to start the ConfigParser and FilveMover
      *
-     * @param parser ConfigParser
-     * @param mover  FileMover
+     * @param sql   SQLiteRuleRepository
+     * @param mover FileMover
      */
-    public ApiServer(ConfigParser parser, FileMover mover) throws URISyntaxException {
-        this.parser = parser;
+    public ApiServer(SQLiteRuleRepository sql, FileMover mover) throws URISyntaxException {
+        this.sql = sql;
         this.mover = mover;
         this.homeDir = System.getProperty("user.home");
         this.portFile = new File(homeDir + File.separator + ".fileorganizer" + File.separator + "port.txt");
+    }
+
+    /**
+     * Stop the watcher
+     */
+    private void stopWatcher() {
+        isWatcherRunning = false;
+        if (watcherThread != null) {
+            watcherThread.interrupt();
+            watcherThread = null;
+        }
+    }
+
+    /**
+     * Start the watcher
+     */
+    private void startWatcher() {
+        if (isWatcherRunning) return;
+        isWatcherRunning = true;
+        watcherThread = new Thread(() -> {
+            Main.startProgram(sql, mover);
+            Main.watchService(sql, mover);
+        });
+        watcherThread.start();
+
     }
 
     /**
@@ -75,7 +99,10 @@ public class ApiServer {
         Files.writeString(portFile.toPath(), String.valueOf(port));
 
         app.get("/api/config", ctx -> {
-            ctx.json(parser.getConfig());
+            var rules = sql.findAll();
+            var path = sql.findAllGlobalPaths();
+
+            ctx.json(new AppResponse(rules, path));
         });
 
         app.get("/api/status", ctx -> {
@@ -88,17 +115,27 @@ public class ApiServer {
         // updating config.json
         app.post("/api/config", ctx -> {
             try {
-                String newJsonContent = ctx.body();
-                Path configPath = Paths.get(homeDir, ".fileorganizer", "config.json");
-                Path tempPath = Paths.get(homeDir, ".fileorganizer", "config.json.tmo");
+                AppResponse newConfig = ctx.bodyAsClass(AppResponse.class);
 
-                Files.writeString(tempPath, newJsonContent);
+                boolean wasRunning = isWatcherRunning;
+                if (wasRunning) stopWatcher();
 
-                Files.move(tempPath, configPath, StandardCopyOption.REPLACE_EXISTING);
+                // deletes All Configuration
+                sql.removeAllRules();
+                sql.removeAllGlobalPaths();
 
-                parser.reloadConfig();
+                // Add all the old and the new rules and global Paths
+                for (Rule rule : newConfig.rules()) {
+                    sql.add(rule);
+                }
 
-                ctx.status(200).result("Configuration successfully updated and loaded!");
+                for (String path : newConfig.globalPaths().startLocationsGlobal()) {
+                    sql.addGlobalPath(path);
+                }
+
+                if (wasRunning) startWatcher();
+
+                ctx.status(200).result("Configuration updated and Watcher restarted!");
             } catch (Exception e) {
                 System.err.println("Failed to update configuration! " + e.getMessage());
                 ctx.status(500).result("Failed to update configuration! " + e.getMessage());
@@ -110,14 +147,8 @@ public class ApiServer {
                 ctx.status(400).result("Watcher is already running!");
                 return;
             }
-            isWatcherRunning = true;
 
-            watcherThread = new Thread(() -> {
-
-                Main.startProgram(parser, mover);
-                Main.watchService(parser, mover);
-            });
-            watcherThread.start();
+            startWatcher();
 
             ctx.status(200).result("Started watcher!");
         });
@@ -127,11 +158,8 @@ public class ApiServer {
                 ctx.status(400).result("Watcher is not running!");
                 return;
             }
-            isWatcherRunning = false;
-            if (watcherThread != null) {
-                watcherThread.interrupt();
-                watcherThread = null;
-            }
+            stopWatcher();
+
             ctx.status(200).result("Watcher stopped!");
         });
 

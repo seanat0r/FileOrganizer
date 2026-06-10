@@ -13,6 +13,8 @@ public interface RuleRepository {
 
     void delete(Long id);
 
+    void removeAllRules();
+
     List<Rule> findAll();
 
     Optional<Rule> findById(Long id);
@@ -24,5 +26,7 @@ public interface RuleRepository {
 
     void removeGlobalPath(Long id);
 
-    List<AppConfig> findAllGlobalPaths();
+    void removeAllGlobalPaths();
+
+    AppConfig findAllGlobalPaths();
 }

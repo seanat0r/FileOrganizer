@@ -21,7 +21,7 @@ public abstract class FileChecker {
      * The methode everyone needs to have!
      *
      * @param file file name to check
-     * @return ture or false. true check OK. false NOT ok
+     * @return true or false. true check OK. false NOT ok
      */
     public abstract boolean check(File file);
 

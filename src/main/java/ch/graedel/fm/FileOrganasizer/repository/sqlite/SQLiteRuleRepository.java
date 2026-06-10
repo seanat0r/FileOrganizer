@@ -138,6 +138,17 @@ public class SQLiteRuleRepository implements RuleRepository {
     }
 
     /**
+     * WARNING IT DELETES ALL DATA ON THE DATABASE!
+     */
+    public void removeAllRules() {
+        try (Connection conn = DatabaseManager.getDatabaseConnection()) {
+            conn.createStatement().execute("DELETE FROM rules");
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not clear rules", e);
+        }
+    }
+
+    /**
      * Select all Items in the Database. Rule table.
      *
      * @return A list of Rule
@@ -288,35 +299,39 @@ public class SQLiteRuleRepository implements RuleRepository {
     }
 
     /**
+     * WARNING IT DELETES ALL DATA ON THE DATABASE!
+     */
+    public void removeAllGlobalPaths() {
+        try (Connection conn = DatabaseManager.getDatabaseConnection()) {
+            conn.createStatement().execute("DELETE FROM global_paths");
+        } catch (SQLException e) {
+            throw new RuntimeException("Could not clear global paths", e);
+        }
+    }
+
+    /**
      * Get all the Global path
      *
      * @return returns the list of the global Path
      */
     @Override
-    public List<AppConfig> findAllGlobalPaths() {
+    public AppConfig findAllGlobalPaths() {
         try (Connection conn = DatabaseManager.getDatabaseConnection()) {
-
-            List<AppConfig> configs = new ArrayList<>();
+            List<String> paths = new ArrayList<>();
 
             String sql = """
-                                         SELECT *
-                                         FROM global_paths
-                                         ORDER BY path;
+                    SELECT path
+                    FROM global_paths
+                    ORDER BY path
                     """;
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();
 
-
             while (resultSet.next()) {
-                AppConfig config = new AppConfig(
-                        resultSet.getLong("id"),
-                        stringToList(resultSet.getString("path"))
-                );
-                configs.add(config);
+                paths.add(resultSet.getString("path"));
             }
 
-            return configs;
-
+            return new AppConfig(0L, paths);
         } catch (SQLException e) {
             throw new RuntimeException("Could not get global paths.", e);
         }
