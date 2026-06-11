@@ -1,7 +1,10 @@
 package ch.graedel.fm.FileOrganasizer.api;
 
 import ch.graedel.fm.FileOrganasizer.Main;
-import ch.graedel.fm.FileOrganasizer.model.*;
+import ch.graedel.fm.FileOrganasizer.model.AppResponse;
+import ch.graedel.fm.FileOrganasizer.model.Log;
+import ch.graedel.fm.FileOrganasizer.model.Logtype;
+import ch.graedel.fm.FileOrganasizer.model.Rule;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
@@ -219,7 +222,7 @@ public class ApiServer {
 
         // get Systeminfo (ram, cpu and drive)
         app.get("/api/systemInfo", ctx -> {
-            ctx.status(200).json(systemMonitoring.getSystemInfo(););
+            ctx.status(200).json(systemMonitoring.getSystemInfo());
         });
     }
 }
