@@ -56,3 +56,33 @@ export interface Log {
     message: string,
     type: "SUCCESS" | "ERROR" | "INFO" | "SKIP" | "WARNING"
 }
+
+/**
+ * PC system info - all data are raw
+ * @param totalRAM total ram of the system
+ * @param freeRAM free ram of the system
+ * @param usedRAM used ram of the system
+ * @param cpuLoad load of the cpu
+ * @param drives all the drive from the user
+ */
+export interface SystemInfo {
+    totalRAM: number,
+    freeRAM: number,
+    usedRAM: number,
+    cpuLoad: number,
+    drives: Drives[]
+}
+
+/**
+ * The drives of the user. All data are raw
+ * @param driverName the drives Name
+ * @param totalSpace the total space
+ * @param freeSpace the free space on the disk
+ * @param usedSpace the used spaced
+ */
+export interface Drives {
+    driverName: string,
+    totalSpace: number,
+    freeSpace: number,
+    usedSpace: number,
+}
