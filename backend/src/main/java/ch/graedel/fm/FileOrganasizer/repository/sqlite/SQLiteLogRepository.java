@@ -94,7 +94,7 @@ public class SQLiteLogRepository implements LogRepository {
             String sql = """
                     SELECT *
                     FROM logs
-                    ORDER BY timestamp DESC;
+                    ORDER BY timestamp;
                     """;
             PreparedStatement statement = conn.prepareStatement(sql);
             ResultSet resultSet = statement.executeQuery();

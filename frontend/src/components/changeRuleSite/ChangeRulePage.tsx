@@ -27,9 +27,6 @@ export function ChangeRulePage() {
         void fetchConfig();
     }, []);
 
-
-    // const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
-
     // --- GLOBAL PATH LOGIC ---
     // handels deleting, editing and adding
     const handleDeleteGlobalPath = (indexToDelete: number) => {

@@ -18,7 +18,7 @@ export function RuleList({rules, onDeleteClick, onSelectForEdit}: RuleListProps)
                     {rules.map((rule, index) => (
                         <li key={index} className="editable-rule-item">
                             <div className="rule-item-details">
-                                <strong className="rule-item-title">Rule #{index + 1}</strong>
+                                <strong className="rule-item-title">{rule.ruleName}</strong>
                                 <span className="rule-item-dest">
                                     <span
                                         className="dest-label">Dest:</span> {rule.destination || "No destination defined"}

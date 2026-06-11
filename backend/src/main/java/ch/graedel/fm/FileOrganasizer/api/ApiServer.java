@@ -1,13 +1,11 @@
 package ch.graedel.fm.FileOrganasizer.api;
 
 import ch.graedel.fm.FileOrganasizer.Main;
-import ch.graedel.fm.FileOrganasizer.model.AppResponse;
-import ch.graedel.fm.FileOrganasizer.model.Log;
-import ch.graedel.fm.FileOrganasizer.model.Logtype;
-import ch.graedel.fm.FileOrganasizer.model.Rule;
+import ch.graedel.fm.FileOrganasizer.model.*;
 import ch.graedel.fm.FileOrganasizer.mover.FileMover;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteLogRepository;
 import ch.graedel.fm.FileOrganasizer.repository.sqlite.SQLiteRuleRepository;
+import ch.graedel.fm.FileOrganasizer.utils.SystemMonitoring;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.javalin.Javalin;
@@ -34,7 +32,15 @@ public class ApiServer {
      */
     private final FileMover mover;
 
+    /**
+     * SQLite class for getting logs from the db.
+     */
     private final SQLiteLogRepository sqlLog;
+
+    /**
+     * Getting System info
+     */
+    private final SystemMonitoring systemMonitoring = new SystemMonitoring();
 
     /**
      * Holds the $HOME directory to access the file everywhere
@@ -152,15 +158,20 @@ public class ApiServer {
 
                 if (wasRunning) startWatcher();
 
+                ctx.status(200).result("Configuration updated and Watcher restarted!");
+
                 sqlLog.addLog(new Log(
                         "Config",
                         "Config reloaded successfully",
                         Logtype.SUCCESS
                 ));
-
-                ctx.status(200).result("Configuration updated and Watcher restarted!");
             } catch (Exception e) {
                 System.err.println("Failed to update configuration! " + e.getMessage());
+                sqlLog.addLog(new Log(
+                        "Config",
+                        "Adding/ Updating new Config failed!",
+                        Logtype.ERROR
+                ));
                 ctx.status(500).result("Failed to update configuration! " + e.getMessage());
             }
         });
@@ -204,6 +215,11 @@ public class ApiServer {
         app.get("/api/logs", ctx -> {
             sqlLog.cleanup(50);
             ctx.status(200).json(sqlLog.getAllLogs());
+        });
+
+        // get Systeminfo (ram, cpu and drive)
+        app.get("/api/systemInfo", ctx -> {
+            ctx.status(200).json(systemMonitoring.getSystemInfo(););
         });
     }
 }

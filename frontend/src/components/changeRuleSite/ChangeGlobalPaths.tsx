@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {isValidPath} from "../../utils/checkValidPath.ts";
 
 interface ChangeGlobalPathsProps {
     globalPaths: string[];
@@ -20,10 +21,28 @@ export function ChangeGlobalPaths({
 
     const [editValue, setEditValue] = useState<string>('');
 
+    const [pathError, setPathError] = useState<string | null>(null);
+
     const handleAdd = () => {
-        if (newPathInput.trim() !== "") {
+        const trimmedPath = newPathInput.trim();
+        setPathError(null);
+
+        if (trimmedPath === "") {
+            setPathError("Path cannot be empty");
+            return;
+        }
+
+        if (globalPaths.includes(trimmedPath)) {
+            setPathError("Path already exists")
+            return;
+        }
+
+        if (isValidPath(newPathInput)) {
             onAddClick(newPathInput.trim());
             setNewPathInput("");
+        } else {
+            setPathError("Cannot be a valid path. Enter full path (with / or C:\\).");
+            return;
         }
     };
 
@@ -33,8 +52,21 @@ export function ChangeGlobalPaths({
     };
 
     const saveEdit = (index: number) => {
-        if (editValue.trim() !== "") {
-            onEditClick(index, editValue.trim());
+        setPathError(null);
+        if (isValidPath(editValue)) {
+            const trimmedEdit = editValue.trim();
+
+            if (trimmedEdit === "") {
+                cancelEdit();
+                return;
+            }
+
+            if (isValidPath(editValue)) {
+                onEditClick(index, trimmedEdit);
+                return;
+            } else {
+                setPathError("Invalid path. Enter full path (with / or C:\\).");
+            }
         }
         setEditingIndex(null);
     };
@@ -47,6 +79,12 @@ export function ChangeGlobalPaths({
         <section className="global-paths-editor card">
             <div className="card-header">
                 <h3>Global Watch Directories</h3>
+                {pathError && (
+                    <div className="form-error-alert">
+                        <span className="error-icon">⚠️</span>
+                        <span>{pathError}</span>
+                    </div>
+                )}
             </div>
 
             <div className="path-list-container">
@@ -99,17 +137,19 @@ export function ChangeGlobalPaths({
             </div>
 
             <div className="add-path-controls">
-                <input
-                    type="text"
-                    className="form-input flex-grow"
-                    placeholder="Mac/Linux: /home/user | Windows: C:\Users\name"
-                    value={newPathInput}
-                    onChange={(e) => setNewPathInput(e.target.value)}
-                    onKeyDown={(e) => {
-                        if (e.key === "Enter") handleAdd();
-                    }}
-                />
-                <button className="btn-primary" onClick={handleAdd}>Add Path</button>
+                <div style={{display: 'flex', width: '100%', gap: '10px'}}>
+                    <input
+                        type="text"
+                        className="form-input flex-grow"
+                        placeholder="Mac/Linux: /home/user | Windows: C:\Users\name"
+                        value={newPathInput}
+                        onChange={(e) => setNewPathInput(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Enter") handleAdd();
+                        }}
+                    />
+                    <button className="btn-primary" onClick={handleAdd}>Add Path</button>
+                </div>
             </div>
         </section>
     );

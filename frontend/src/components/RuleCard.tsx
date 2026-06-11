@@ -11,8 +11,8 @@ export function RuleCard({rule, index}: RuleCardProps) {
     return (
         <article className="rule-card card">
             <div className="rule-card-header">
-                <h4>Rule #{index + 1}, {rule.ruleName}</h4>
-                <span className="rule-badge">{rule.name || `Rule ${index + 1}`}</span>
+                <h4>{rule.ruleName}</h4>
+                <span className="rule-badge">{`Rule #${index + 1}`}</span>
             </div>
 
             <div className="rule-card-body">

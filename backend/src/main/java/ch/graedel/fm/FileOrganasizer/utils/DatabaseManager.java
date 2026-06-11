@@ -16,6 +16,7 @@ public class DatabaseManager {
                 start_location TEXT,
                 exact_name TEXT,
                 extension TEXT,
+                name_contains TEXT,
                 destination_path TEXT NOT NULL,
                 same_name TEXT NOT NULL DEFAULT 'ignore' CHECK (same_name IN ('rename', 'ignore')),
                 deep_content_check INTEGER DEFAULT 0

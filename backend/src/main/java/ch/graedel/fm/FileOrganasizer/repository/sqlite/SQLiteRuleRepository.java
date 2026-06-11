@@ -23,11 +23,7 @@ public class SQLiteRuleRepository implements RuleRepository {
      * @return return 1 or 0 for true/false.
      */
     private int changeHashValue(boolean hash) {
-        if (hash) {
-            return 1;
-        } else {
-            return 0;
-        }
+        return hash ? 1 : 0;
     }
 
     /**
@@ -50,7 +46,7 @@ public class SQLiteRuleRepository implements RuleRepository {
         if (string == null || string.isEmpty()) {
             return new ArrayList<>();
         }
-        return new ArrayList<>(Arrays.asList(string.split(", ")));
+        return new ArrayList<>(Arrays.asList(string.split(",")));
     }
 
     /**
@@ -70,7 +66,7 @@ public class SQLiteRuleRepository implements RuleRepository {
                 query.getString("name_contains"),
                 query.getString("destination_path"),
                 query.getString("same_name"),
-                query.getInt("hash") == 1  //set 1 to true, 0 to false
+                query.getInt("deep_content_check") == 1  //set 1 to true, 0 to false
         );
     }
 
@@ -89,8 +85,8 @@ public class SQLiteRuleRepository implements RuleRepository {
 
             String sql =
                     """
-                            INSERT INTO RULES ( rule_name, start_location, exact_name, extension, destination_path, same_name, deep_content_check)
-                            VALUES (?, ?, ?, ?, ?, ?, ?)
+                            INSERT INTO RULES ( rule_name, start_location, exact_name, extension, name_contains, destination_path, same_name, deep_content_check)
+                            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                             """;
 
             PreparedStatement statement = conn.prepareStatement(sql);
@@ -98,9 +94,10 @@ public class SQLiteRuleRepository implements RuleRepository {
             statement.setString(2, sqlStartLocation);
             statement.setString(3, rule.name());
             statement.setString(4, sqlExtension);
-            statement.setString(5, rule.destination());
-            statement.setString(6, rule.sameName());
-            statement.setInt(7, sqlHash);
+            statement.setString(5, rule.nameContains());
+            statement.setString(6, rule.destination());
+            statement.setString(7, rule.sameName());
+            statement.setInt(8, sqlHash);
             statement.execute();
         } catch (SQLException e) {
             throw new RuntimeException("Could not save rule", e);

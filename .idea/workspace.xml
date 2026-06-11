@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e7b04830-5c9a-4947-b502-63e79dff9b2c" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/file_organasizer.db" beforeDir="false" afterPath="$PROJECT_DIR$/data/file_organasizer.db" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/api/backend.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/api/backend.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/RuleCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/RuleCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeGlobalPaths.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeGlobalPaths.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeRulePage.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeRulePage.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleList.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleList.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/utils/checkValidPath.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/utils/checkValidPath.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/api/ApiServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/api/ApiServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/api/SystemLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/api/SystemLogger.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/checker/ExactNameChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/checker/ExactNameChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/checker/ExtensionChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/checker/ExtensionChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/checker/FileChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/checker/FileChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/checker/LocationChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/checker/LocationChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/checker/NameContainsChecker.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/checker/NameContainsChecker.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/model/AppConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/model/AppConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/model/AppResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/model/AppResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/model/Log.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/model/Log.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/model/Logtype.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/model/Logtype.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/model/Rule.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/model/Rule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/mover/FileMover.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/mover/FileMover.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/parser/ConfigParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/parser/ConfigParser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/repository/LogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/repository/LogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/repository/RuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/repository/RuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/repository/sqlite/SQLiteLogRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/repository/sqlite/SQLiteLogRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/repository/sqlite/SQLiteRuleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/repository/sqlite/SQLiteRuleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/utils/DatabaseManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/utils/DatabaseManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/utils/FileHasher.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/utils/FileHasher.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ch/graedel/fm/FileOrganasizer/utils/shouldRename.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/ch/graedel/fm/FileOrganasizer/utils/shouldRename.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/config.json" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript JSX File" />
+        <option value="JavaScript File" />
+        <option value="Record" />
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;seanat0r&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/seanat0r/FileOrganizer&quot;,
+    &quot;accountId&quot;: &quot;4fcb9950-572e-4ead-8dff-24f8beb85dd1&quot;
+  }
+}</component>
+  <component name="McpProjectServerCommands">
+    <commands />
+    <urls />
+  </component>
+  <component name="NextEditCompletionFeaturesState">
+    <decayedCancelled>
+      <entry key="MS100" value="1.6076241462306773" />
+      <entry key="MS500" value="4.283572787538697" />
+      <entry key="S2" value="7.466044065461653" />
+      <entry key="S5" value="9.18596900625614" />
+      <entry key="S10" value="10.002179327178816" />
+      <entry key="S30" value="10.742259282061886" />
+      <entry key="S60" value="13.656317919111311" />
+      <entry key="M2" value="28.03238240162809" />
+      <entry key="M5" value="74.77483184582579" />
+      <entry key="M10" value="140.58001800019952" />
+      <entry key="M15" value="192.20246138008184" />
+      <entry key="M30" value="286.35324508282713" />
+      <entry key="H1" value="380.0816816193127" />
+      <entry key="H2" value="488.39155637898546" />
+      <entry key="H4" value="618.9984837469194" />
+      <entry key="D1" value="1147.2709929324662" />
+      <entry key="W1" value="1876.9808699216628" />
+    </decayedCancelled>
+    <decayedSelected>
+      <entry key="MS100" value="0.0" />
+      <entry key="MS500" value="3.1148060379311176E-151" />
+      <entry key="S2" value="2.362423488507723E-38" />
+      <entry key="S5" value="8.899038809854455E-16" />
+      <entry key="S10" value="2.983125677851078E-8" />
+      <entry key="S30" value="0.0031013957217837815" />
+      <entry key="S60" value="0.055690176400384026" />
+      <entry key="M2" value="0.23600285774356336" />
+      <entry key="M5" value="0.5730714139475275" />
+      <entry key="M10" value="0.8578960458211672" />
+      <entry key="M15" value="1.0527680243064759" />
+      <entry key="M30" value="1.423695464149567" />
+      <entry key="H1" value="2.676335931860679" />
+      <entry key="H2" value="8.359760364220731" />
+      <entry key="H4" value="21.71326689556954" />
+      <entry key="D1" value="138.5191276854819" />
+      <entry key="W1" value="369.54417313120456" />
+    </decayedSelected>
+    <decayedShown>
+      <entry key="MS100" value="1.5207348408830392" />
+      <entry key="MS500" value="4.208660240251326" />
+      <entry key="S2" value="7.36880784846477" />
+      <entry key="S5" value="9.120592926606413" />
+      <entry key="S10" value="9.962922994653754" />
+      <entry key="S30" value="10.730448427680365" />
+      <entry key="S60" value="13.703440134887392" />
+      <entry key="M2" value="28.262307627399537" />
+      <entry key="M5" value="75.34232334552998" />
+      <entry key="M10" value="141.43137484785362" />
+      <entry key="M15" value="193.24874949672974" />
+      <entry key="M30" value="287.7717691505526" />
+      <entry key="H1" value="382.75357959207656" />
+      <entry key="H2" value="496.7459273336857" />
+      <entry key="H4" value="640.7057320735735" />
+      <entry key="D1" value="1285.7841520887973" />
+      <entry key="W1" value="2246.5227974503414" />
+    </decayedShown>
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3EgP0FRYqUJm9gBV4G48qx8DOAN" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "Application.Main.executor": "Run",
+    "Maven.File_organazier [clean].executor": "Run",
+    "Maven.File_organazier [compile].executor": "Run",
+    "Maven.File_organazier [package].executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "Node.js.main.js.executor": "Run",
+    "OverrideImplement.generate.javadoc": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "code.cleanup.on.save": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
+    "com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1": "true",
+    "git-widget-placeholder": "main",
+    "javascript.preferred.runtime.type.id": "node",
+    "junie.onboarding.icon.badge.shown": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "/Users/christophegradel/IdeaProjects/File_organazier/backend",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "rearrange.code.on.save": "true",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "to.speed.mode.migration.done": "true",
+    "ts.external.directory.path": "/Users/christophegradel/IdeaProjects/File_organazier/frontend/node_modules/typescript/lib",
+    "vue.rearranger.settings.migration": "true"
+  },
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "sqlite"
+    ],
+    "com.intellij.ide.scratch.LRUPopupBuilder$1/SQL Dialect": [
+      "SQLite"
+    ]
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/FileOrganizer-Desktop/backend" />
+      <recent name="$PROJECT_DIR$/FileOrganizer-Desktop" />
+      <recent name="$PROJECT_DIR$/target" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/data" />
+      <recent name="$PROJECT_DIR$" />
+      <recent name="$PROJECT_DIR$/src/main/resources" />
+      <recent name="$PROJECT_DIR$/frontend" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="ch.graedel.fm.FileOrganasizer.repository" />
+      <recent name="ch.graedel.fm.FileOrganasizer.utils" />
+    </key>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-37e91769500f-intellij.indexing.shared.core-IU-261.24374.151" />
+        <option value="bundled-js-predefined-d6986cc7102b-31caf2ab9e3c-JavaScript-IU-261.24374.151" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e7b04830-5c9a-4947-b502-63e79dff9b2c" name="Changes" comment="" />
+      <created>1780597014509</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1780597014509</updated>
+      <workItem from="1780597015525" duration="39955000" />
+      <workItem from="1780691858335" duration="56324000" />
+      <workItem from="1780951160157" duration="635000" />
+      <workItem from="1780952967137" duration="35000" />
+      <workItem from="1780999160715" duration="13344000" />
+      <workItem from="1781013569677" duration="7571000" />
+      <workItem from="1781072671846" duration="41526000" />
+      <workItem from="1781197662897" duration="3073000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+    <option name="exactExcludedFiles">
+      <list>
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleList.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeGlobalPaths.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleForm.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleSection.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleList.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeGlobalPaths.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleForm.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/RuleSection.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeRulePage.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/changeRuleSite/ChangeRulePage.js" />
+        <option value="$PROJECT_DIR$/frontend/src/main.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/App.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/App.js" />
+        <option value="$PROJECT_DIR$/frontend/src/main.js" />
+        <option value="$PROJECT_DIR$/frontend/src/types/index.js" />
+        <option value="$PROJECT_DIR$/frontend/src/types/index.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/api/backend.js" />
+        <option value="$PROJECT_DIR$/frontend/src/api/backend.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/Navigation.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/Header.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/ActiveRulesSite.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/RuleCard.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/LiveLog.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/Header.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/RuleCard.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/StatusSite.d.ts" />
+        <option value="$PROJECT_DIR$/frontend/src/components/Navigation.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/StatusSite.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/ActiveRulesSite.js" />
+        <option value="$PROJECT_DIR$/frontend/src/components/LiveLog.d.ts" />
+      </list>
+    </option>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

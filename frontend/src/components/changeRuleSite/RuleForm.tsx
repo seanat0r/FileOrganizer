@@ -1,6 +1,7 @@
 import type {Rule} from "../../types";
 import * as React from "react";
 import {useEffect, useState} from "react";
+import {isValidPath} from "../../utils/checkValidPath.ts";
 
 
 interface RuleFormProps {
@@ -11,7 +12,6 @@ interface RuleFormProps {
     onCancelEdit: () => void;
 
 }
-
 
 export function RuleForm({
                              activeRule,
@@ -31,6 +31,7 @@ export function RuleForm({
     const [hash, setHash] = useState<boolean>(false);
 
     const [formError, setFormError] = useState<string | null>(null);
+
 
     useEffect(() => {
         if (activeRule) {
@@ -65,14 +66,8 @@ export function RuleForm({
             return;
         }
 
-        const isValidPath = (pathStr: string) => {
-            if (pathStr.trim() === "") return true;
-
-            const paths = pathStr.split(",").map(p => p.trim());
-            return paths.every(p => p.startsWith("/") || /^[A-Za-z]:\\/.test(p));
-        };
-
-        if (!isValidPath(startLocArray)) {
+        // startLocArray should be able to be empty! But if not empty it should be somewhat a valid path.
+        if (startLocArray.trim() !== "" && !isValidPath(startLocArray)) {
             setFormError("Cannot be a valid Path. Enter full Path (with / or C:\\) or nothing");
             return;
         }
@@ -89,11 +84,11 @@ export function RuleForm({
         }
 
         if (!isValidPath(destination)) {
-            setFormError("Cannot be a valid Path. Enter full path or nothing.");
+            setFormError("Cannot be a valid Path. Enter full path (with / or C:\\). Mandatory.");
             return;
         }
 
-        const sameNameInput = sameName.toLowerCase().trim(); // <-- NEU: Hier definieren wir die Variable!
+        const sameNameInput = sameName.toLowerCase().trim();
         if (sameNameInput !== "rename" && sameNameInput !== "ignore" && sameNameInput !== "") {
             setFormError("Please enter \"rename\" or \"ignore\".");
             return;
@@ -103,7 +98,7 @@ export function RuleForm({
         const extArray = extension.split(",").map(s => s.trim()).filter(s => s !== "");
 
         const ruleObject: Rule = {
-            ruleName: "",
+            ruleName: ruleName,
             name: name.trim(),
             startLocation: parsedStartLocArray.length > 0 ? parsedStartLocArray : [],
             extensions: extArray.length > 0 ? extArray : [],
@@ -178,7 +173,7 @@ export function RuleForm({
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     placeholder="/directory/target/"
-                    required
+
                     rows={2}
                 />
             </div>
@@ -216,6 +211,7 @@ export function RuleForm({
                     value={sameName}
                     onChange={(e) => setSameName(e.target.value)}
                     placeholder="rename or ignore"
+                    required
                 />
             </div>
 

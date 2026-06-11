@@ -2,7 +2,7 @@ import type {AppResponse, Log} from "../types";
 
 const port = window.electronAPI?.backendPort ?? '9999';
 //const BASE_URL = `http://127.0.0.1:${port}`;
-const BASE_URL = "http://127.0.0.1:50215"
+const BASE_URL = "http://127.0.0.1:61471"
 
 console.log("Connecting to backend on port:", port);
 
