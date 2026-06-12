@@ -1,15 +1,15 @@
-/* --- GLOBALE VARIABLEN --- */
+/* --- GLOBALE VAR --- */
 :root {
     --bg-base: #121212;
     --bg-surface: #1e1e1e;
     --bg-surface-hover: #2a2a2a;
     --text-primary: #ffffff;
-    --text-secondary: #b3b3b3; /* KONTRAST: Etwas heller gemacht für bessere Lesbarkeit */
+    --text-secondary: #b3b3b3;
     --accent-blue: #1a71ff;
     --accent-blue-hover: #0056e0;
     --status-online: #2ecc71;
     --status-offline: #e74c3c;
-    --border-color: #3a3a3a; /* KONTRAST: Rahmen etwas sichtbarer gemacht */
+    --border-color: #3a3a3a;
 }
 
 /* --- RESET & TYPOGRAPHIE --- */

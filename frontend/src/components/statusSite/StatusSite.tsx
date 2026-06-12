@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
-import {getStatus, startBackend, stopBackend} from "../api/backend.ts";
+import {getStatus, startBackend, stopBackend} from "../../api/backend.ts";
 import {LiveLog} from "./LiveLog.tsx";
+import {SystemMonitoring} from "./SystemMonitoring.tsx";
 
 export function StatusSite() {
     const [isServerRunning, setIsServerRunning] = useState<boolean>(false);
@@ -61,7 +62,7 @@ export function StatusSite() {
                     </div>
                 </div>
             </section>
-
+            <SystemMonitoring/>
             <LiveLog/>
         </div>
     );

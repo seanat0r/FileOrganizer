@@ -81,8 +81,8 @@ export interface SystemInfo {
  * @param usedSpace the used spaced
  */
 export interface Drives {
-    driverName: string,
+    driveName: string,
     totalSpace: number,
     freeSpace: number,
-    usedSpace: number,
+    inUseSpace: number,
 }

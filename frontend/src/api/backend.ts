@@ -1,4 +1,4 @@
-import type {AppResponse, Log} from "../types";
+import type {AppResponse, Log, SystemInfo} from "../types";
 
 const port = window.electronAPI?.backendPort ?? '9999';
 //const BASE_URL = `http://127.0.0.1:${port}`;
@@ -98,8 +98,8 @@ export const stopBackend = async (): Promise<boolean> => {
 
 /**
  * Post the new rules for the config.json
- * @param AppConfig the new rules.
  * @return true succeed sending the new config.json.
+ * @param AppResponse
  */
 export const postNewConfig = async (AppResponse: AppResponse): Promise<boolean> => {
     try {
@@ -138,3 +138,23 @@ export const getLogs = async (): Promise<Log[]> => {
         }];
     }
 }
+
+export const getSystemInfo = async (): Promise<SystemInfo> => {
+    try {
+        const response = await fetch(`${BASE_URL}/api/systemInfo`);
+        if (!response.ok) {
+            throw new Error(response.statusText);
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Backend not reachable: " + error);
+        return {
+            totalRAM: 0,
+            freeRAM: 0,
+            usedRAM: 0,
+            cpuLoad: 0,
+            drives: []
+        }
+    }
+};

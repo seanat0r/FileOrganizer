@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* --- GLOBALE VARIABLEN --- */
 :root {
     --bg-base: #121212;
@@ -31,12 +33,11 @@ body {
 .app-layout {
     display: flex;
     flex-direction: column;
-    height: 100vh; /* Friert die Höhe auf Fenstergrösse ein */
+    height: 100vh;
     width: 100vw;
-    overflow: hidden; /* Verhindert das Scrollen der ganzen Seite */
+    overflow: hidden;
 }
 
-/* Der Bereich für deine Seiten - nur HIER darf gescrollt werden */
 .content-container {
     flex: 1;
     overflow-y: auto;
@@ -44,7 +45,6 @@ body {
     background-color: var(--bg-base);
 }
 
-/* --- HEADER --- */
 .app-header {
     display: flex;
     justify-content: space-between;
@@ -63,7 +63,6 @@ body {
     letter-spacing: 0.5px;
 }
 
-/* --- NAVIGATION (Tablet Optimized) --- */
 .app-nav {
     display: flex;
     background-color: var(--bg-base);
@@ -91,14 +90,12 @@ body {
     color: var(--text-primary);
 }
 
-/* Der aktive Tab in Blau */
 .nav-item.active {
     background-color: var(--accent-blue);
     color: #ffffff;
     box-shadow: 0 2px 8px rgba(26, 113, 255, 0.3);
 }
 
-/* --- STATUS BADGE --- */
 .header-actions {
     display: flex;
     align-items: center;
@@ -125,7 +122,6 @@ body {
     color: var(--text-primary);
 }
 
-/* Der leuchtende Punkt */
 .status-dot {
     width: 10px;
     height: 10px;

@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from "react";
-import {getLogs} from "../api/backend.ts";
-import type {Log} from "../types/index.ts";
+import {getLogs} from "../../api/backend.ts";
+import type {Log} from "../../types";
 
 export function LiveLog() {
     const [logs, setLogs] = useState<Log[]>([]);
