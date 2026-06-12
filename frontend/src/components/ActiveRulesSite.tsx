@@ -24,7 +24,7 @@ export function ActiveRulesSite() {
         };
         void fetchRules();
     }, []);
-    
+
     if (!config || !Array.isArray(config.startLocationsGlobal)) {
         return (
             <div className="active-rules-layout">
@@ -36,49 +36,58 @@ export function ActiveRulesSite() {
         );
     }
     return (
-        <div className="active-rules-layout">
-            <header className="page-header">
-                <h2>Active File Management Rules</h2>
-                <p className="page-subtitle">Overview of your current file routing and filtering configurations.</p>
+        <div className="flex flex-col gap-6 min-w-0 w-full">
+            <header className="border-b border-border pb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-text-primary truncate">Active File Management
+                    Rules</h2>
+                <p className="text-sm sm:text-base text-text-secondary mt-1 break-words">Overview of your current file
+                    routing and filtering configurations.</p>
             </header>
 
             {!config ? (
-                <div className="loading-state">
-                    <span className="loading-spinner"></span>
-                    <p>Loading configuration...</p>
+                <div
+                    className="flex flex-col sm:flex-row items-center justify-center p-12 bg-bg-surface border border-border rounded-xl shadow-md gap-4 min-w-0">
+                    <span
+                        className="animate-spin h-8 w-8 border-4 border-accent-blue border-t-transparent rounded-full shrink-0"></span>
+                    <p className="text-text-secondary font-medium text-base">Loading configuration...</p>
                 </div>
             ) : (
-                <div className="rules-content">
+                <div className="flex flex-col gap-6 min-w-0 w-full">
                     {/* Global Source Locations Section */}
-                    <section className="global-locations-card card">
-                        <div className="card-header">
-                            <h3>Global Source Directories</h3>
+                    <section
+                        className="bg-accent-hover/7 border border-accent-blue/20 rounded-xl p-5 sm:p-6 shadow-md min-w-0 w-full">
+                        <div className="border-b border-border pb-3 mb-4">
+                            <h3 className="text-lg sm:text-xl font-bold text-text-primary truncate">Global Source
+                                Directories</h3>
                         </div>
-                        <div className="card-body">
+                        <div className="min-w-0">
                             {config.startLocationsGlobal?.length > 0 ? (
-                                <ul className="directory-list">
+                                <ul className="flex flex-col gap-3 min-w-0">
                                     {config.startLocationsGlobal?.map((location, index) => (
-                                        <li key={`global-${index}`} className="directory-item">
-                                            <span className="folder-icon">📁</span>
-                                            <span className="path-text">{location}</span>
+                                        <li key={`global-${index}`}
+                                            className="flex items-center gap-3 p-3 sm:p-4 bg-bg-base border border-border rounded-lg min-w-0 w-full">
+                                            <span className="text-xl shrink-0">📁</span>
+                                            <span
+                                                className="text-sm sm:text-base text-text-primary break-all">{location}</span>
                                         </li>
                                     ))}
                                 </ul>
                             ) : (
-                                <p className="empty-state-text">No global directories defined.</p>
+                                <p className="text-text-secondary italic">No global directories defined.</p>
                             )}
                         </div>
                     </section>
 
                     {/* Specific Rules */}
-                    <section className="specific-rules-section">
-                        <h3 className="section-title">Specific Rules</h3>
+                    <section className="min-w-0 w-full">
+                        <h3 className="text-lg sm:text-xl font-bold text-text-primary mb-4 truncate">Specific Rules</h3>
                         {rules?.length === 0 ? (
-                            <div className="card empty-state-card">
-                                <p>No specific rules defined yet.</p>
+                            <div
+                                className="bg-bg-surface border border-border rounded-xl p-8 shadow-md text-center min-w-0">
+                                <p className="text-text-secondary italic text-base">No specific rules defined yet.</p>
                             </div>
                         ) : (
-                            <div className="rules-grid">
+                            <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 min-w-0 w-full">
                                 {rules?.map((rule, index) => (
                                     <RuleCard key={`rule-${index}`} rule={rule} index={index}/>
                                 ))}

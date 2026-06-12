@@ -54,5 +54,6 @@
     body {
         background-color: var(--color-bg-base);
         color: var(--color-text-primary);
+        width: 100vw;
     }
 }

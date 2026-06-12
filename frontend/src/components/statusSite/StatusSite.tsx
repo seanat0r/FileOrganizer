@@ -30,8 +30,7 @@ export function StatusSite() {
     };
 
     return (
-        // Hier ist deine Breitenberechnung eingebaut (greift ab Desktop-Grösse)
-        <div className="flex flex-col gap-6 min-w-0 w-full lg:w-screen">
+        <div className="flex flex-col gap-6 min-w-0 w-full">
             <section className="bg-bg-surface border border-border rounded-xl p-6 shadow-md min-w-0">
                 <div className="border-b border-border pb-4 mb-6">
                     <h2 className="text-l sm:text-2xl font-bold ml-9 text-text-primary truncate">Server Control

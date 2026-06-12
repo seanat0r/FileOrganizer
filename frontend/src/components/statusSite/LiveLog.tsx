@@ -69,7 +69,7 @@ export function LiveLog() {
 
                             return (
                                 <li key={index}
-                                    className={`flex flex-col xl:flex-row xl:items-start gap-2 xl:gap-4 p-4 border-l-4 bg-bg-surface rounded-r-lg text-sm sm:text-base min-w-0 transition-colors hover:bg-bg-hover ${logClass}`}>
+                                    className={`flex flex-col xl:flex-row xl:items-start gap-2 xl:gap-4 p-4 border-l-4 bg-bg-surface rounded-r-lg text-lg min-w-0 transition-colors hover:bg-bg-hover ${logClass}`}>
 
                                     <div
                                         className="flex flex-row items-center gap-3 xl:flex-col xl:items-start xl:gap-2 shrink-0">
@@ -80,7 +80,7 @@ export function LiveLog() {
                                     </div>
 
                                     <div
-                                        className="flex-1 min-w-0 mt-2 xl:mt-0 break-all sm:break-words leading-relaxed">
+                                        className="flex-1 min-w-0 mt-2 xl:mt-0 break-all sm:wrap-break-word leading-relaxed">
                                         <span className="font-semibold text-text-primary">{log.ruleName}:</span> <span
                                         className="text-text-primary opacity-90">{log.message}</span>
                                     </div>

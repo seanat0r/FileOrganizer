@@ -8,7 +8,7 @@ function App() {
         <Router>
             <div className="bg-bg-base min-h-screen w-full text-text-primary">
                 <Header/>
-                <main className="md:ml-67 ml-2 mt-3 mr-2 mb-3 bg-bg-base min-h-screen w-full text-text-primary">
+                <main className="md:ml-64 flex-1 min-w-0 mt-3 px-2 md:px-6 w-full md:max-w-[calc(100vw-16rem)]">
                     <AppRoutes/>
                 </main>
             </div>
