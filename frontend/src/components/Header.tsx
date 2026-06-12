@@ -1,12 +1,15 @@
 import {type BackendStatus, getStatus} from "../api/backend.ts";
-import {Navigation} from "./Navigation.tsx";
+import * as React from "react";
 import {useEffect, useState} from "react";
+import {Aside} from "./Aside.tsx";
 
 export function Header() {
     const [status, setStatus] = useState<BackendStatus>({
         running: false,
         message: "Loading...",
     });
+    const [isOpen, setIsOpen] = useState<boolean>(false);
+
 
     const loadStatus = async () => {
         const currentStatus = await getStatus();
@@ -30,24 +33,50 @@ export function Header() {
         };
     }, []);
 
+    const toggleMenu = () => {
+        setIsOpen(!isOpen);
+
+    }
+
     return (
-        <header className="app-header">
-            <div className="header-brand">
-                <h1>File Organizer</h1>
-            </div>
+        <>
+            <Aside isOpen={isOpen}/>
+            <div className="sticky top-0 z-50">
+                <header className="relative">
+                    <button
+                        onClick={toggleMenu}
+                        className="md:hidden absolute top-6 left-6 z-50 flex flex-col justify-center items-center w-10 h-10 gap-1.5
+                    cursor-pointer bg-bg-base border border-border rounded-xl transition-all duration-200 hover:bg-bg-hover"
+                        aria-label="Menü umschalten">
 
-            <Navigation/>
+                    <span className={`block w-6 h-0.5 rounded-full transition-all duration-300 ease-in-out 
+                    ${isOpen ? 'rotate-45 translate-y-2 bg-accent-blue' : 'bg-text-primary'}`}/>
 
-            <div className="header-actions">
-                <button
-                    className={`status-badge ${status.running ? 'online' : 'offline'}`}
-                    onClick={loadStatus}
-                    title="Click to refresh status"
-                >
-                    <span className="status-dot"></span>
-                    {status.running ? "Online" : "Offline"}
-                </button>
+                        <span className={`block w-6 h-0.5 bg-text-primary rounded-full transition-all duration-300 ease-in-out 
+                     ${isOpen ? 'opacity-0 translate-x-3' : ''}`}/>
+
+                        <span className={`block w-6 h-0.5 rounded-full transition-all duration-300 ease-in-out 
+                    ${isOpen ? '-rotate-45 -translate-y-2 bg-accent-blue' : 'bg-text-primary'}`}/>
+                    </button>
+
+                    <button
+                        className={`flex items-center gap-2 border border-border-DEFAULT bg-bg-base text-text-secondary 
+                px-4 py-2 rounded-[20px] text-sm font-semibold transition-all duration-200 absolute top-5 right-8
+                hover:bg-bg-surface-hover hover:text-text-primary min-h-11
+                ${status.running ? 'border-border shadow-2xl' : 'border-border shadow-2xl'}`}
+                        onClick={loadStatus}
+                    >
+                <span
+                    className={`w-2.5 h-2.5 rounded-full animate-pulse-glow ${status.running ? 'bg-status-online' : 'bg-status-offline'}`}
+                    style={{
+                        '--glow-color': status.running
+                            ? 'var(--color-status-online)'
+                            : 'var(--color-status-offline)'
+                    } as React.CSSProperties}></span>
+                        {status.running ? "Online" : "Offline"}
+                    </button>
+                </header>
             </div>
-        </header>
+        </>
     );
 }
