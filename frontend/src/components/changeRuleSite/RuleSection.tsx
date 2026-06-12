@@ -26,12 +26,16 @@ export function RuleSection({
     const activeRuleIndex = activeRule ? rules.indexOf(activeRule) : null;
 
     return (
-        <div className="rules-split-layout">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-6 min-w-0 w-full">
 
-            <section className="rule-form-section card">
-                <h3>
-                    {activeRule !== null ? "Edit Rule" : "Add new rule"}
-                </h3>
+            {/* Left Side */}
+            <section
+                className="bg-bg-surface border border-border rounded-xl p-5 sm:p-6 shadow-md min-w-0 flex flex-col">
+                <div className="border-b border-border pb-3 mb-5">
+                    <h3 className="text-lg font-bold text-text-primary truncate">
+                        {activeRule !== null ? "Edit Rule" : "Add New Rule"}
+                    </h3>
+                </div>
 
                 <RuleForm
                     activeRule={activeRule}
@@ -42,8 +46,12 @@ export function RuleSection({
                 />
             </section>
 
-            <section className="rules-list-section card">
-                <h3>Current rules</h3>
+            {/* Right Side*/}
+            <section
+                className="bg-bg-surface border border-border rounded-xl p-5 sm:p-6 shadow-md min-w-0 flex flex-col">
+                <div className="border-b border-border pb-3 mb-5">
+                    <h3 className="text-lg font-bold text-text-primary truncate">Current Rules</h3>
+                </div>
 
                 <RuleList
                     rules={rules}

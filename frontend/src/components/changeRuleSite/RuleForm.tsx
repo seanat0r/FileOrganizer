@@ -124,41 +124,45 @@ export function RuleForm({
 
 
     return (
-        <form className="rule-form-container" onSubmit={handleSubmit}>
+        <form className="flex flex-col gap-5 min-w-0 w-full" onSubmit={handleSubmit}>
 
             {formError && (
-                <div className="form-error-alert">
-                    <span className="error-icon">⚠️</span>
-                    <span>{formError}</span>
+                <div
+                    className="flex items-center gap-2 bg-log-error/10 border border-log-error/30 text-log-error px-4 py-3 rounded-lg text-sm font-medium min-w-0">
+                    <span className="shrink-0">⚠️</span>
+                    <span className="break-words">{formError}</span>
                 </div>
             )}
-            <div className="form-group">
-                <label className="form-label">Rule Name<span className="required-asterisk">*</span></label>
+
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Rule Name <span
+                    className="text-log-error">*</span></label>
                 <input
                     type="text"
-                    className="form-input"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors"
                     value={ruleName}
                     onChange={(e) => setRuleName(e.target.value)}
                     placeholder="Name your Rule"
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Exact Name Match <span
-                    className="label-hint">(Leave empty if unused)</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Exact Name Match <span
+                    className="text-xs text-text-secondary font-normal">(Leave empty if unused)</span></label>
                 <input
                     type="text"
-                    className="form-input"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     placeholder="e.g. invoice"
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Specific Source Paths <span className="label-hint">(Comma-separated, optional)</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Specific Source Paths <span
+                    className="text-xs text-text-secondary font-normal">(Comma-separated, optional)</span></label>
                 <textarea
-                    className="form-input form-textarea"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors resize-y min-h-[80px]"
                     value={startLocArray}
                     onChange={(e) => setStartLocArray(e.target.value)}
                     placeholder="/User/folder1/, C://User/folder2/"
@@ -166,48 +170,48 @@ export function RuleForm({
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Destination Path <span className="required-asterisk">*</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Destination Path <span
+                    className="text-log-error">*</span></label>
                 <textarea
-                    className="form-input form-textarea"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm font-mono text-accent-blue w-full min-w-0 placeholder:text-text-secondary/50 transition-colors resize-y min-h-[80px]"
                     value={destination}
                     onChange={(e) => setDestination(e.target.value)}
                     placeholder="/directory/target/"
-
                     rows={2}
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Extensions <span
-                    className="label-hint">(Without dot, comma-separated)</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Extensions <span
+                    className="text-xs text-text-secondary font-normal">(Without dot, comma-separated)</span></label>
                 <input
                     type="text"
-                    className="form-input"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors"
                     value={extension}
                     onChange={(e) => setExtension(e.target.value)}
                     placeholder="jpg, png, pdf"
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Contains Name<span
-                    className="label-hint">(Leave empty if unused)</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Contains Name <span
+                    className="text-xs text-text-secondary font-normal">(Leave empty if unused)</span></label>
                 <input
                     type="text"
-                    className="form-input"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors"
                     value={nameContains}
                     onChange={(e) => setNameContains(e.target.value)}
                     placeholder="e.g. sbb"
                 />
             </div>
 
-            <div className="form-group">
-                <label className="form-label">Action for Existing Files <span
-                    className="required-asterisk">*</span></label>
+            <div className="flex flex-col gap-1.5 min-w-0">
+                <label className="text-sm font-semibold text-text-primary">Action for Existing Files <span
+                    className="text-log-error">*</span></label>
                 <input
                     type="text"
-                    className="form-input"
+                    className="bg-bg-base border border-border focus:border-accent-blue outline-none rounded-lg px-4 py-2.5 text-sm text-text-primary w-full min-w-0 placeholder:text-text-secondary/50 transition-colors"
                     value={sameName}
                     onChange={(e) => setSameName(e.target.value)}
                     placeholder="rename or ignore"
@@ -215,26 +219,28 @@ export function RuleForm({
                 />
             </div>
 
-            <div className="form-group checkbox-group">
+            <div className="flex items-start gap-3 mt-2 min-w-0 bg-bg-base p-4 rounded-lg border border-border">
                 <input
                     type="checkbox"
-                    className="form-checkbox"
+                    className="mt-1 shrink-0 w-4 h-4 accent-accent-blue cursor-pointer"
                     id="hashCheck"
                     checked={hash}
                     onChange={(e) => setHash(e.target.checked)}
                 />
-                <label htmlFor="hashCheck" className="checkbox-label">
+                <label htmlFor="hashCheck" className="text-sm text-text-primary cursor-pointer leading-tight">
                     Use deep content check (Hash) to identify identical duplicates?
                 </label>
             </div>
 
-            <div className="form-actions-row">
-                <button type="submit" className="btn-primary btn-flex">
+            <div className="flex flex-col sm:flex-row gap-3 mt-4 pt-4 border-t border-border min-w-0">
+                <button type="submit"
+                        className="flex-1 bg-accent-blue text-text-primary py-3 rounded-lg font-bold text-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg hover:shadow-accent-blue/40">
                     {activeRule ? "💾 Update Rule" : "➕ Create Rule"}
                 </button>
 
                 {activeRule && (
-                    <button type="button" onClick={onCancelEdit} className="btn-secondary btn-flex">
+                    <button type="button" onClick={onCancelEdit}
+                            className="flex-1 bg-bg-base border border-border text-text-primary py-3 rounded-lg font-bold text-sm transition-all duration-300 hover:bg-bg-hover hover:-translate-y-1 hover:shadow-lg hover:shadow-text-primary/10">
                         Cancel
                     </button>
                 )}

@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import {ChangeGlobalPaths} from "./ChangeGlobalPaths";
 import {RuleSection} from "./RuleSection";
 import {getConfig, postNewConfig} from "../../api/backend.ts";
+import {createPortal} from "react-dom";
 
 export function ChangeRulePage() {
     const [rules, setRules] = useState<Rule[]>([]);
@@ -104,11 +105,12 @@ export function ChangeRulePage() {
         }
     }
     return (
-        <div className="change-rules-layout">
-            <header className="page-header">
-                <h2>Configuration & Rules Editor</h2>
-                <p className="page-subtitle">Manage your global source directories and define specific routing
-                    rules.</p>
+        <div className="flex flex-col gap-6 min-w-0 w-full relative pb-20">
+            <header className="border-b border-border pb-4">
+                <h2 className="text-xl sm:text-2xl font-bold text-text-primary truncate">Configuration & Rules
+                    Editor</h2>
+                <p className="text-sm sm:text-base text-text-secondary mt-1 break-words">Manage your global source
+                    directories and define specific routing rules.</p>
             </header>
 
             <ChangeGlobalPaths
@@ -128,14 +130,24 @@ export function ChangeRulePage() {
                 onCancelEdit={handleCancelEdit}
             />
 
-            <button
-                className={`floating-save-btn ${hasUnsavedChanges ? 'is-active' : 'is-disabled'}`}
-                onClick={handleSaveAll}
-                disabled={!hasUnsavedChanges}
-            >
-                <span className="save-icon">💾</span>
-                <span>Save All Changes</span>
-            </button>
+            {/* Flying Button*/}
+            {createPortal(
+                <div className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-9999">
+                    <button
+                        className={`flex items-center gap-3 px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 border
+                            ${hasUnsavedChanges
+                            ? 'bg-accent-blue text-text-primary border-accent-blue cursor-pointer ' +
+                            'shadow-[0_0_40px_rgb(26, 113, 255, 0.8)] hover:-translate-y-1.5 hover:shadow-[0_0_40px_#1a71ff]'
+                            : 'bg-bg-surface text-text-secondary border-border opacity-60 cursor-not-allowed shadow-md'}`}
+                        onClick={handleSaveAll}
+                        disabled={!hasUnsavedChanges}
+                    >
+                        <span className="text-2xl">💾</span>
+                        <span>Save All Changes</span>
+                    </button>
+                </div>,
+                document.body
+            )}
         </div>
     );
 }
