@@ -5,7 +5,6 @@ import type {Log} from "../../types";
 export function LiveLog() {
     const [logs, setLogs] = useState<Log[]>([]);
 
-    const logsRef = useRef<Log[]>([]);
     const endOfLogRef = useRef<HTMLDivElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
     const isAutoScrollEnabled = useRef(true);
@@ -22,20 +21,18 @@ export function LiveLog() {
         return () => clearInterval(IntervalId);
     }, []);
 
+    const handleScroll = () => {
+        if (!containerRef.current) return;
+
+        const {scrollTop, scrollHeight, clientHeight} = containerRef.current;
+        const isAtBottom = scrollHeight - scrollTop - clientHeight < 50;
+
+        isAutoScrollEnabled.current = isAtBottom;
+    };
 
     useEffect(() => {
-        // When logs length and our referenz same is, move display down.
-        const isSame = logs.length === logsRef.current.length &&
-            logs.every((log, i) => log === logsRef.current[i]);
-
-        if (isSame) return;
-
-        logsRef.current = logs;
-
-        // the original logic to move down
-        const container = containerRef.current;
-        if (container && isAutoScrollEnabled.current) {
-            endOfLogRef.current?.scrollIntoView({behavior: "smooth"});
+        if (isAutoScrollEnabled.current && containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
         }
     }, [logs]);
 
@@ -46,7 +43,11 @@ export function LiveLog() {
                 <h2 className="text-xl sm:text-2xl font-bold text-text-primary truncate">Activity Logs</h2>
             </div>
 
-            <div className="p-3 sm:p-5 bg-bg-base overflow-y-auto flex-1 min-w-0">
+            <div
+                ref={containerRef}
+                onScroll={handleScroll}
+                className="p-3 sm:p-5 bg-bg-base overflow-y-auto flex-1 min-w-0"
+            >
                 <ul className="flex flex-col gap-3">
                     {logs.length === 0 ? (
                         <li className="text-center text-text-secondary italic py-8 text-base">Wait for system

@@ -24,7 +24,7 @@ export function Aside({isOpen}: AsideProps) {
             <div className="mt-auto pt-4 border-t border-border">
                 <footer className="text-sm text-text-secondary">
                     <p>{today.toLocaleDateString('default')}</p>
-                    <p>Current Version: 1.1.23 (beta)</p>
+                    <p>Current Version: 1.1.23, Apache License 2.0</p>
                 </footer>
             </div>
         </aside>
