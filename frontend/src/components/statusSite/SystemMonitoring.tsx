@@ -72,52 +72,71 @@ export function SystemMonitoring() {
     }
 
     return (
-        <div>
-            <h3>System Info Monitoring</h3>
-            <div>
-                <div>
-                    <h4>CPU Info:</h4>
-                    <dl>
-                        <dt>CPU-Load:</dt>
-                        <dd>{systemStatus?.cpuLoad + " %" || NO_DATA}</dd>
-                    </dl>
-                </div>
-                <div>
-                    <h4>RAM Info:</h4>
-                    <dl>
-                        <dt>Free RAM:</dt>
-                        <dd>{systemStatus?.freeRAM + " GB" || NO_DATA}</dd>
+        <div className="bg-bg-surface border border-border rounded-xl p-6 shadow-md min-w-0 w-full">
+            <h3 className="text-xl sm:text-2xl font-bold text-text-primary mb-6 pb-3 border-b border-border truncate">System
+                Info Monitoring</h3>
 
-                        <dt>Max RAM:</dt>
-                        <dd>{systemStatus?.totalRAM + " GB" || NO_DATA}</dd>
+            <div className="flex flex-col xl:grid xl:grid-cols-2 gap-6 min-w-0">
+
+                <div className="bg-bg-base border border-border rounded-lg p-5 min-w-0">
+                    <h4 className="text-base font-semibold text-text-secondary mb-4 truncate">CPU Info:</h4>
+                    <dl className="flex justify-between items-center mb-3 gap-3">
+                        <dt className="text-base text-text-primary shrink-0">CPU-Load:</dt>
+                        <dd className="text-base font-bold text-text-primary truncate">{systemStatus?.cpuLoad + " %" || NO_DATA}</dd>
                     </dl>
-                    <div>
-                        <dl>
-                            <dt>Currently Using:</dt>
-                            <dd>{systemStatus?.usedRAM + " GB" || NO_DATA}</dd>
-                        </dl>
-                        <span
-                            style={{width: `${getRAMusageInPercent(systemStatus?.totalRAM || 0, systemStatus?.usedRAM || 0)}`}}></span>
+                    <div className="w-full bg-bg-surface rounded-full h-3 overflow-hidden border border-border">
+                        <div className="bg-accent-blue h-full rounded-full transition-all duration-500"
+                             style={{width: `${systemStatus?.cpuLoad || 0}%`}}></div>
                     </div>
                 </div>
+
+                <div className="bg-bg-base border border-border rounded-lg p-5 min-w-0">
+                    <h4 className="text-base font-semibold text-text-secondary mb-4 truncate">RAM Info:</h4>
+                    <dl className="flex justify-between items-center text-base mb-2 text-text-primary gap-3">
+                        <dt className="shrink-0">Free RAM:</dt>
+                        <dd className="truncate">{systemStatus?.freeRAM + " GB" || NO_DATA}</dd>
+                    </dl>
+                    <dl className="flex justify-between items-center text-base mb-4 text-text-primary gap-3">
+                        <dt className="shrink-0">Max RAM:</dt>
+                        <dd className="truncate">{systemStatus?.totalRAM + " GB" || NO_DATA}</dd>
+                    </dl>
+                    <div className="pt-4 border-t border-border">
+                        <dl className="flex justify-between items-center text-base mb-3 gap-3">
+                            <dt className="text-text-primary shrink-0">Currently Using:</dt>
+                            <dd className="font-bold text-text-primary truncate">{systemStatus?.usedRAM + " GB" || NO_DATA}</dd>
+                        </dl>
+                        <div className="w-full bg-bg-surface rounded-full h-3 overflow-hidden border border-border">
+                            <span className="block bg-accent-blue h-full rounded-full transition-all duration-500"
+                                  style={{width: `${getRAMusageInPercent(systemStatus?.totalRAM || 0, systemStatus?.usedRAM || 0)}%`}}></span>
+                        </div>
+                    </div>
+                </div>
+
                 {filterDrive(systemStatus?.drives || []).map((element, index) => {
                     return (
-                        <div key={index}>
-                            <h4>{element.driveName || NO_DATA}</h4>
-                            <dl>
-                                <dt>Total space:</dt>
-                                <dd>{element.totalSpace + " MB" || NO_DATA}</dd>
-
-                                <dt>Free Space:</dt>
-                                <dd>{element.freeSpace + " MB" || NO_DATA}</dd>
-
-                                <dt>Using:</dt>
-                                <dd>{element.inUseSpace + " MB" || NO_DATA}</dd>
+                        <div key={index} className="bg-bg-base border border-border rounded-lg p-5 min-w-0">
+                            <h4 className="text-base font-bold text-text-primary mb-4 truncate"
+                                title={element.driveName || NO_DATA}>
+                                {element.driveName || NO_DATA}
+                            </h4>
+                            <dl className="flex flex-col gap-3 text-sm sm:text-base">
+                                <div className="flex justify-between items-center gap-3">
+                                    <dt className="text-text-secondary shrink-0">Total space:</dt>
+                                    <dd className="font-medium text-text-primary truncate">{element.totalSpace + " MB" || NO_DATA}</dd>
+                                </div>
+                                <div className="flex justify-between items-center gap-3">
+                                    <dt className="text-text-secondary shrink-0">Free Space:</dt>
+                                    <dd className="font-medium text-text-primary truncate">{element.freeSpace + " MB" || NO_DATA}</dd>
+                                </div>
+                                <div
+                                    className="flex justify-between items-center pt-3 border-t border-border mt-2 gap-3">
+                                    <dt className="text-text-primary font-semibold shrink-0">Using:</dt>
+                                    <dd className="font-bold text-text-primary truncate">{element.inUseSpace + " MB" || NO_DATA}</dd>
+                                </div>
                             </dl>
                         </div>
                     )
-                })
-                }
+                })}
             </div>
         </div>
     )
