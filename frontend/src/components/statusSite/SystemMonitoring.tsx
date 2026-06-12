@@ -14,9 +14,7 @@ export function SystemMonitoring() {
             isFetching.current = true;
 
             try {
-                console.log("--- Fetching SystemInfo... ---");
                 const getData: SystemInfo = await getSystemInfo();
-                console.log(" Data from Backend: " + getData);
 
                 if (!getData || !getData.cpuLoad) {
                     console.warn("No Data from Backend: " + getData.cpuLoad);
@@ -66,9 +64,9 @@ export function SystemMonitoring() {
         return Array.from(uniqueDrivesMap.values());
     }
 
-    function getRAMusageInPercent(total: number, used: number): number {
-        // calculates the %-Of RAM usage. Shifting the Value by 100 to get 2 decimal
-        return Math.round(((total / 100) * used) * 100) / 100;
+    function getPercent(total: number, used: number): number {
+        if (total === 0) return 0;
+        return Math.round((used / total) * 10000) / 100;
     }
 
     return (
@@ -107,7 +105,7 @@ export function SystemMonitoring() {
                         </dl>
                         <div className="w-full bg-bg-surface rounded-full h-3 overflow-hidden border border-border">
                             <span className="block bg-accent-blue h-full rounded-full transition-all duration-500"
-                                  style={{width: `${getRAMusageInPercent(systemStatus?.totalRAM || 0, systemStatus?.usedRAM || 0)}%`}}></span>
+                                  style={{width: `${getPercent(systemStatus?.totalRAM || 0, systemStatus?.usedRAM || 0)}%`}}></span>
                         </div>
                     </div>
                 </div>
@@ -132,6 +130,12 @@ export function SystemMonitoring() {
                                     className="flex justify-between items-center pt-3 border-t border-border mt-2 gap-3">
                                     <dt className="text-text-primary font-semibold shrink-0">Using:</dt>
                                     <dd className="font-bold text-text-primary truncate">{element.inUseSpace + " MB" || NO_DATA}</dd>
+                                </div>
+                                <div
+                                    className="w-full bg-bg-surface rounded-full h-3 overflow-hidden border border-border">
+                                    <span
+                                        className="block bg-accent-blue h-full rounded-full transition-all duration-500"
+                                        style={{width: `${getPercent(element.totalSpace || 0, element.inUseSpace || 0)}%`}}></span>
                                 </div>
                             </dl>
                         </div>
