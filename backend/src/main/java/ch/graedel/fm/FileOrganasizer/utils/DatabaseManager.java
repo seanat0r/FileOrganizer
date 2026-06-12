@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class DatabaseManager {
-    private static final String DATABASE_URL = "jdbc:sqlite:data/file_organasizer.db";
+    public static String DATABASE_URL = "";
 
     public static void createDatabase() {
         String createRuleDatabase = """

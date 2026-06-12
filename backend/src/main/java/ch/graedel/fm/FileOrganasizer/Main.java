@@ -23,9 +23,17 @@ public class Main {
      * Initialize all ConfigParser, FileMover and ApiServer.
      * start the programm.
      */
-    static void main() {
+    static void main(String[] args) {
         try {
-            //ConfigParser parser = new ConfigParser();
+
+            String dbPath = "jdbc:sqlite:lokale_dev_datenbank.db";
+
+            if (args.length > 0) {
+                dbPath = "jdbc:sqlite:" + args[0];
+            }
+
+            DatabaseManager.DATABASE_URL = dbPath;
+
             SQLiteRuleRepository sqliteDbRepo = new SQLiteRuleRepository();
             SQLiteLogRepository sqliteLogRepo = new SQLiteLogRepository();
             FileMover mover = new FileMover(sqliteLogRepo);
